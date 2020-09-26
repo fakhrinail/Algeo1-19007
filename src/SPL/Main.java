@@ -12,13 +12,13 @@ public class Main {
         M2.copyMatriks(M1);
 
         M2.setWholeTabFloat(M1.matriksToGauss());
-
-        for(int i=0; i<M2.getBaris(); i++){
-            for(int j=0; j<M2.getKolom(); j++){
-                System.out.println(M2.getElmt(i, j));
-            }
-        }
         
+        for (int i = 0; i < M2.getBaris(); i++) {
+            for (int j = 0; j < M2.getKolom(); j++) {
+                System.out.print(M2.getElmt(i, j) + " ");
+            }
+            System.out.println();
+        }
         
         
     }
