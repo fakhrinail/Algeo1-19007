@@ -139,17 +139,15 @@ public class Inverse {
     }
     
     public void transpose(float[][] matriks){
-        float[][] m;
-        m = new float[matriks.length][matriks[0].length];
         int i = 0;
         int j = 0;
         while (i < this.getBaris()){
             j = 0;
             j += i;
             while ( j < this.getKolom()){
-                float temp = m[j][i];
-                m[j][i] = m[i][j];
-                m[i][j] = temp;
+                float temp = matriks[j][i];
+                matriks[j][i] = matriks[i][j];
+                matriks[i][j] = temp;
                 j += 1;
             }
             i += 1;
@@ -157,27 +155,18 @@ public class Inverse {
     
         
     }
-    public float[][] adjoin(float[][] matriks){
-        float[][] m;
-        float[][] mCofactor;
-        m = new float[matriks.length][matriks[0].length];
-        mCofactor = cofactor(m);
-        transpose(mCofactor);
-        return mCofactor;
-    }
     
     public float[][] inverse(float[][] matriks){
         int i, j;
         float det_m;
         float[][] m;
-        float[][] mAdjoin;
         
         m = new float[matriks.length][matriks[0].length];
-        det_m = Determinan(m);
-        mAdjoin = adjoin(m);
+        det_m = Determinan(matriks);
+        transpose(cofactor(matriks));
         for (i = 0; i < matriks.length; i++){
             for (j = 0; j < matriks[0].length; j++){
-                m[i][j] = (mAdjoin[i][j])/(det_m); 
+                m[i][j] = (matriks[i][j])/(det_m); 
             }
             
         
