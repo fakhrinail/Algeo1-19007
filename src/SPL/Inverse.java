@@ -163,7 +163,8 @@ public class Inverse {
         
         m = new float[matriks.length][matriks[0].length];
         det_m = Determinan(matriks);
-        transpose(cofactor(matriks));
+        matriks = cofactor(matriks);
+        transpose(matriks);
         for (i = 0; i < matriks.length; i++){
             for (j = 0; j < matriks[0].length; j++){
                 m[i][j] = (matriks[i][j])/(det_m); 
