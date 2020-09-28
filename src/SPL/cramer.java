@@ -60,7 +60,7 @@ public class cramer {
     }
 
     /*METHOD*/
-    public void copyMatriks(cramer MSource){
+    public void copyMatriks(float[][] MSource){
         this.baris = MSource.baris;
         this.kolom = MSource.kolom;
         this.tabFloat = MSource.tabFloat;
@@ -122,23 +122,26 @@ public class cramer {
     
     public float[] cramerMethod(float[][] matriks){
         float[] hasil = new float[matriks.length];
+        float[][] matrikscopy = copyMatriks(matriks);
+        float[][] matriksbaru = new float[matriks.length][matriks[0].length-1];
         float pembagi;
 
         pembagi = determinan(squareMatrix(matriks));
+
         for (int i = 0; i < hasil.length; i++) {
-            hasil[i] = determinan(squareMatrix(switchColumn(matriks, i))) / pembagi;
+            matriksbaru = squareMatrix(switchColumn(copymatriks, i));
+            hasil[i] = determinan(matriksbaru) / pembagi;
         }
 
         return hasil;
     }
 
-    public void printHasil(){
-        float[] hasil = cramerMethod(tabFloat);
+    public void printHasil(float[] hasil){
         for (Integer i = 0; i < hasil.length; i++) {
             System.out.print("Hasil elemen ke-");
             System.out.print(i+1);
             System.out.print(" adalah ");
-            System.out.print(hasil[i]);
+            System.out.println(hasil[i]);
         }
     }
 }
