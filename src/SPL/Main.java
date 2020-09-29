@@ -71,7 +71,7 @@ public class Main {
         } else if (menu == 6) {
             
         }
-        */
+        *//*
         Scanner scan = new Scanner(System.in);
 
         cramer MC1 = new cramer();
@@ -91,57 +91,19 @@ public class Main {
         }
         
         MC1.printHasil(MC1.cramerMethod(matriks));
-
-    }
-}
-
-    /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package SPL;
-
-/**
- *
- * @author Azmi
- */
-import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        
-        Inverse M1 = new Inverse();
-        M1.makeInverse();
+        */
         
         //Matriks M2, matriks yang berisi matriks setelah
-        Inverse M2 = new Inverse();
-        M2.copyMatriks(M1);
 
-        M2.setWholeTabFloat(M1.inverse(M2.getWholeTab()));
         
-        for (int i = 0; i < M2.getBaris(); i++) {
-            for (int j = 0; j < M2.getKolom(); j++) {
-                System.out.print(M2.getElmt(i, j) + " ");
-            }
-            System.out.println();
-        }
-        matriks M3 = new matriks();
-        M3.makeSPL();
         
-        //Matriks M4, matriks yang berisi matriks setelah
-        matriks M4 = new matriks();
-        M4.copyMatriks(M3);
-        
-        for (int i = 0; i < M4.getBaris(); i++) {
-            for (int j = 0; j < M4.getKolom(); j++) {
-                System.out.print(M4.getElmt(i, j) + " ");
-            }
-            System.out.println();
-        }
+
         
         
     }
+        
+        
+    
 }
 
 

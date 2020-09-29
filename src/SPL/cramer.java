@@ -1,3 +1,4 @@
+/*
 package SPL;
 
 import java.util.Scanner;
@@ -28,9 +29,9 @@ public class cramer {
             System.out.println("Invalid input");
         }
     }
-
+*/
     /*SETTER*/
-    public void setBaris(int row){
+/*    public void setBaris(int row){
         this.baris = row;
     }
 
@@ -45,9 +46,9 @@ public class cramer {
     public void setWholeTabFloat(float[][] tabInput){
         this.tabFloat = tabInput;
     }
-
+*/
     /*GETTER*/
-    public int getBaris(){
+ /*   public int getBaris(){
         return this.baris;
     }
 
@@ -58,9 +59,9 @@ public class cramer {
     public float getElmt(int row, int column){
         return this.tabFloat[row][column];
     }
-
+*/
     /*METHOD*/
-    public void copyMatriks(float[][] MSource){
+/*    public void copyMatriks(float[][] MSource){
         this.baris = MSource.baris;
         this.kolom = MSource.kolom;
         this.tabFloat = MSource.tabFloat;
@@ -145,3 +146,4 @@ public class cramer {
         }
     }
 }
+*/
