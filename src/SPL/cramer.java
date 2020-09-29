@@ -1,11 +1,43 @@
-/*
+
 package SPL;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class cramer {
     private int baris,kolom;
     private float[][] tabFloat;
+
+    public void makeTxt() {
+        /*
+        File myFile = new File ("../matrix.txt");
+        //System.out.println(new File(".").getAbsolutePath());
+        Scanner myScan = new Scanner(myFile);
+        int row = 0;
+        int column = 0;
+        int coltmp = 0;
+        float[][] matriks = new float[4][4];
+
+        while (myScan.hasNextLine()){
+            //Scanner scan = new Scanner(matriks);
+            while (myScan.hasNextFloat()) {
+                matriks[row][coltmp] = myScan.nextFloat();
+                coltmp++;
+                column++;
+            }
+            coltmp = 0;
+            row++;
+        }
+
+        for (int i = 0; i < matriks.length; i++) {
+            for (int j = 0; j < matriks[0].length; j++) {
+                System.out.print(matriks[i][j] + " ");
+            }
+            System.out.println();
+        }
+        */
+    }
+
 
     public void makeCramer() {
         try (Scanner scan = new Scanner(System.in)) {
@@ -29,9 +61,9 @@ public class cramer {
             System.out.println("Invalid input");
         }
     }
-*/
+    
     /*SETTER*/
-/*    public void setBaris(int row){
+    public void setBaris(int row){
         this.baris = row;
     }
 
@@ -46,9 +78,9 @@ public class cramer {
     public void setWholeTabFloat(float[][] tabInput){
         this.tabFloat = tabInput;
     }
-*/
+
     /*GETTER*/
- /*   public int getBaris(){
+    public int getBaris(){
         return this.baris;
     }
 
@@ -59,15 +91,19 @@ public class cramer {
     public float getElmt(int row, int column){
         return this.tabFloat[row][column];
     }
-*/
+
     /*METHOD*/
-/*    public void copyMatriks(float[][] MSource){
-        this.baris = MSource.baris;
-        this.kolom = MSource.kolom;
-        this.tabFloat = MSource.tabFloat;
+    public float[][] copyMatriks(float[][] MSource){
+        float[][] copy = new float[MSource.length][MSource[0].length];
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[0].length; j++) {
+                copy[i][j] = MSource[i][j];
+            }
+        }
+        return copy;
     }
 
-    public float[][] switchColumn(float[][] matriks, int columntarget) {
+    public void switchColumn(float[][] matriks, int columntarget) {
         float tmp;
 
         for (int i = 0; i < matriks.length; i++) {
@@ -75,8 +111,6 @@ public class cramer {
             matriks[i][columntarget] = matriks[i][matriks[0].length-1];
             matriks[i][matriks[0].length-1] = tmp;
         }
-
-        return matriks;
     }
 
     public float[][] squareMatrix(float[][] matriks) {
@@ -121,16 +155,17 @@ public class cramer {
         }
     }
     
-    public float[] cramerMethod(float[][] matriks){
-        float[] hasil = new float[matriks.length];
-        float[][] matrikscopy = copyMatriks(matriks);
-        float[][] matriksbaru = new float[matriks.length][matriks[0].length-1];
+    public float[] cramerMethod(){
+        float[] hasil = new float[this.tabFloat.length];
+        float[][] matriksbaru = new float[this.tabFloat.length][this.tabFloat[0].length-1];
         float pembagi;
 
-        pembagi = determinan(squareMatrix(matriks));
+        pembagi = determinan(squareMatrix(this.tabFloat));
 
         for (int i = 0; i < hasil.length; i++) {
-            matriksbaru = squareMatrix(switchColumn(copymatriks, i));
+            float[][] matrikscopy = copyMatriks(this.tabFloat);
+            switchColumn(matrikscopy, i);
+            matriksbaru = squareMatrix(matrikscopy);
             hasil[i] = determinan(matriksbaru) / pembagi;
         }
 
@@ -146,4 +181,3 @@ public class cramer {
         }
     }
 }
-*/

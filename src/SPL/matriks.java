@@ -72,9 +72,9 @@ public class matriks {
         this.tabFloat = MSource.tabFloat;
     }
 
-    private void divideAllbyLeading(int rowLeading, float[][] MTarget){
-        float divider = MTarget[rowLeading][rowLeading];
-        for (int j=rowLeading; j<this.getKolom();j++){
+    private void divideAllbyLeading(int rowLeading, int columnLeading, float[][] MTarget){
+        float divider = MTarget[rowLeading][columnLeading];
+        for (int j=0; j<this.getKolom();j++){
             float newValue = MTarget[rowLeading][j]/divider;
             MTarget[rowLeading][j] = newValue;
         }
@@ -92,20 +92,28 @@ public class matriks {
     private void searchNonZeroValue(int row, int column, float[][] MTarget){
         
         boolean ketemu = false;
-        int i = 0;
+        int i = row;
+        int j = column;
 
-        while (i < this.getBaris() && !ketemu){
-            if (MTarget[i][column]!=0){
+        while (i < this.getBaris() && !ketemu && j>=0){
+            if (MTarget[i][j]!=0){
                 exchangeRow(row, i, MTarget);
                 ketemu = true;
             }
+            
+            if (i==this.getBaris()-1 && ketemu==false){        //belum ketemu dan sudah mentok
+                i = row;
+                j -= 1;
+            }else{
+                i+=1;
+            }  
         }
     }
 
-    private void makeElmtBeforeLeadingToZero(int rowLeading, int columnLeading, float[][] MTarget){
-        for (int j=0; j<columnLeading; j++){
-            if (MTarget[rowLeading][j]!=0){
-                substractionRow(rowLeading, j, MTarget);
+    private void makeElmtBeforeLeadingToZero(int row, int column, float[][] MTarget){
+        for (int j=0; j<column; j++){
+            if (MTarget[row][j]!=0){
+                substractionRow(row, j, MTarget);
             }
         }
 
@@ -127,22 +135,63 @@ public class matriks {
         
         float[][] MGauss = new float[this.baris][this.kolom];
         MGauss = this.tabFloat;
+
+        int rowLeading=0;
+        int columnLeading=0;
+
         for (int i=0; i<this.getBaris(); i++){
-            for (int j=0; j<i+1; j++){
-                if (i!=j){
+            
+            for (int j=0; j<columnLeading+1 && j<this.getKolom(); j++){
+                if (i!=rowLeading || j!=columnLeading){
                     if (MGauss[i][j]!=0){
-                        makeElmtBeforeLeadingToZero(i, j+1, MGauss);
+                        makeElmtBeforeLeadingToZero(j, j+1, MGauss);
                     }
-                }else if (i==j){
-                    if (MGauss[i][j]==0){
-                        searchNonZeroValue(i, j, MGauss);
-                        makeElmtBeforeLeadingToZero(i, j, MGauss); 
-                        divideAllbyLeading(i, MGauss);               
-                    }else if (MGauss[i][j]!=1){
-                        divideAllbyLeading(i, MGauss);
+                }else{
+                    if (MGauss[rowLeading][columnLeading]==0){
+                        
+                        boolean mentok = false;
+                        while (MGauss[rowLeading][columnLeading]==0 && !mentok){
+                            searchNonZeroValue(rowLeading, columnLeading, MGauss);
+                            makeElmtBeforeLeadingToZero(rowLeading, columnLeading, MGauss);
+                        }
+                        if (MGauss[rowLeading][columnLeading    ]==0){   // jika setelah dicari element leading masih 0
+                            boolean nol = true;
+                            int k = columnLeading;      //variabel iterasi di kolom baris i
+                            while (nol && k<this.getKolom()){
+                                if (MGauss[rowLeading][k]!=0){       //elemen yang tidak bernilai 0 ketemu
+                                    nol = false;
+                                    divideAllbyLeading(rowLeading, k, MGauss);
+                                    columnLeading = k;
+                                }else{
+                                    k+=1;
+                                }
+                                
+                            }
+                            
+                               /*else{
+                                boolean rowNonZero = false;
+                                int l = this.getBaris()-1;       //variabel iterasi baris untuk mengecek baris yang tidak semua elemennya 0
+                                while (!rowNonZero && l > i ){
+                                    if (!isRowAllZero(l, MGauss)){
+                                        exchangeRow(i, l, MGauss);
+                                        rowNonZero = true;
+                                    }else{
+                                        l -= 1;
+                                    }
+                                }
+                            }*/
+                        }else{
+                            makeElmtBeforeLeadingToZero(i, j, MGauss);
+                            divideAllbyLeading(i, j, MGauss);
+                        } 
+                                       
+                    }else if (MGauss[rowLeading][columnLeading]!=1 && MGauss[rowLeading][columnLeading]!=0){
+                        divideAllbyLeading(i, j, MGauss);
                     }
                 }
             }
+            rowLeading+=1;
+            columnLeading+=1;
         }
 
 

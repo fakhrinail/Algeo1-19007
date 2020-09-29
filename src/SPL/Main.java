@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        /*
+        
         Scanner scan = new Scanner(System.in);
 
         System.out.println("MENU");
@@ -45,17 +45,39 @@ public class Main {
                 
             }
             else if (opsi == 3) { //Metode balikan
+                Inverse M1 = new Inverse();
+                M1.makeInverse();
                 
+                //Matriks M2, matriks yang berisi matriks setelah
+                Inverse M2 = new Inverse();
+                M2.copyMatriks(M1);
+
+                M2.setWholeTabFloat(M1.inverse(M2.getWholeTab()));
+                
+                for (int i = 0; i < M2.getBaris(); i++) {
+                    for (int j = 0; j < M2.getKolom(); j++) {
+                        System.out.print(M2.getElmt(i, j) + " ");
+                    }
+                    System.out.println();
+                }
+                matriks M3 = new matriks();
+                M3.makeSPL();
+                
+                //Matriks M4, matriks yang berisi matriks setelah
+                matriks M4 = new matriks();
+                M4.copyMatriks(M3);
+                
+                for (int i = 0; i < M4.getBaris(); i++) {
+                    for (int j = 0; j < M4.getKolom(); j++) {
+                        System.out.print(M4.getElmt(i, j) + " ");
+                    }
+                    System.out.println();
+                }
             }
             else if (opsi == 4) { //Metode Cramer
                 cramer MC1 = new cramer();
                 MC1.makeCramer();
-                
-                //Matriks M2, matriks yang berisi matriks setelah
-                cramer MC2 = new cramer();
-                MC2.copyMatriks(MC1);
-
-                MC2.printHasil();
+                MC1.printHasil(MC1.cramerMethod());
             }
             else{
 
@@ -71,40 +93,9 @@ public class Main {
         } else if (menu == 6) {
             
         }
-        *//*
-        Scanner scan = new Scanner(System.in);
-
-        cramer MC1 = new cramer();
-        
-        System.out.println("Masukkan jumlah baris matriks : ");
-        int row = scan.nextInt();
-        System.out.println("Masukkan jumlah kolom matriks : ");
-        int column = scan.nextInt();
-
-        float[][] matriks = new float[row][column];
-
-        for (int i = 0; i < matriks.length; i++) {
-            for (int j = 0; j < matriks[0].length; j++) {
-                System.out.println("Masukkan nilai elemen baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
-                matriks[i][j] = scan.nextFloat();
-            }
-        }
-        
-        MC1.printHasil(MC1.cramerMethod(matriks));
-        */
-        
-        //Matriks M2, matriks yang berisi matriks setelah
-
-        
-        
-
-        
-        
     }
-        
-        
-    
 }
+
 
 
 
