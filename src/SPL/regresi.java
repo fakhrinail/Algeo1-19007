@@ -1,3 +1,6 @@
+/*
+package SPL;
+
 import java.util.Scanner;
 
 public class regresi {
@@ -25,3 +28,5 @@ public class regresi {
         }
     }
 }
+
+*/

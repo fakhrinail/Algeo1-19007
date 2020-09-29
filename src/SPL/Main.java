@@ -26,7 +26,15 @@ public class Main {
             int opsi = scan.nextInt();
             if (opsi == 1) { //Metode Gauss
                 matriks M1 = new matriks();
-                M1.makeSPL();
+                float[][] tabInput = {{0,1,0,0,1,0,2},{0,0,0,1,1,0,-1},{0,1,0,0,0,1,1}};
+                /*
+                {{1,1,-1,-1,1},{2,5,-7,-5,-2},{2,-1,1,3,4},{5,2,-4,2,6}}
+                {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1}}
+                {{0,1,0,0,1,0,2},{0,0,0,1,1,0,-1},{0,1,0,0,0,1,1}}
+                */
+                M1.setBaris(3);
+                M1.setKolom(7);
+                M1.setWholeTabFloat(tabInput);
                 
                 //Matriks M2, matriks yang berisi matriks setelah
                 matriks M2 = new matriks();

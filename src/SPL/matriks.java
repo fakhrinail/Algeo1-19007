@@ -95,6 +95,13 @@ public class matriks {
         int i = row;
         int j = column;
 
+        while (j<this.getKolom() && MTarget[i][j]==0){
+            j+=1;
+        }
+        if (j>column){
+            j-=1;
+        }
+
         while (i < this.getBaris() && !ketemu && j>=0){
             if (MTarget[i][j]!=0){
                 exchangeRow(row, i, MTarget);
@@ -110,10 +117,24 @@ public class matriks {
         }
     }
 
-    private void makeElmtBeforeLeadingToZero(int row, int column, float[][] MTarget){
+    private void makeElmtBeforeLeadingToZero(int row, int column, int rowLeading, float[][] MTarget){
         for (int j=0; j<column; j++){
-            if (MTarget[row][j]!=0){
-                substractionRow(row, j, MTarget);
+            if (row>j){
+                if (MTarget[row][j]!=0){
+                    substractionRow(row, j, MTarget);
+                }
+            }else{
+                if (MTarget[row][j]!=0){
+                    float multiplier = MTarget[row][j] / MTarget[rowLeading-1][j];  //ini j tadinya column, sebelum soal c
+                    for (int k=0; k<this.getKolom(); k++){
+                        float valRow1 = MTarget[row][k];
+                        float valRow2 = MTarget[rowLeading-1][k];
+            
+                        float newValue = valRow1 - (valRow2*multiplier);
+                        
+                        MTarget[row][k] = newValue;
+                    }
+                }
             }
         }
 
@@ -144,17 +165,18 @@ public class matriks {
             for (int j=0; j<columnLeading+1 && j<this.getKolom(); j++){
                 if (i!=rowLeading || j!=columnLeading){
                     if (MGauss[i][j]!=0){
-                        makeElmtBeforeLeadingToZero(j, j+1, MGauss);
+                        makeElmtBeforeLeadingToZero(i, j+1, rowLeading, MGauss);
                     }
                 }else{
                     if (MGauss[rowLeading][columnLeading]==0){
                         
-                        boolean mentok = false;
-                        while (MGauss[rowLeading][columnLeading]==0 && !mentok){
+                        int iterasiMentok = 0;
+                        while (MGauss[rowLeading][columnLeading]==0 && iterasiMentok < this.getBaris()-i){        //mengantisipasi kemungkinan setelah diproses masih 0 0 juga
                             searchNonZeroValue(rowLeading, columnLeading, MGauss);
-                            makeElmtBeforeLeadingToZero(rowLeading, columnLeading, MGauss);
+                            makeElmtBeforeLeadingToZero(rowLeading, columnLeading, rowLeading, MGauss);
+                            iterasiMentok += 1;
                         }
-                        if (MGauss[rowLeading][columnLeading    ]==0){   // jika setelah dicari element leading masih 0
+                        if (MGauss[rowLeading][columnLeading]==0){   // jika setelah dicari element leading masih 0
                             boolean nol = true;
                             int k = columnLeading;      //variabel iterasi di kolom baris i
                             while (nol && k<this.getKolom()){
@@ -167,21 +189,8 @@ public class matriks {
                                 }
                                 
                             }
-                            
-                               /*else{
-                                boolean rowNonZero = false;
-                                int l = this.getBaris()-1;       //variabel iterasi baris untuk mengecek baris yang tidak semua elemennya 0
-                                while (!rowNonZero && l > i ){
-                                    if (!isRowAllZero(l, MGauss)){
-                                        exchangeRow(i, l, MGauss);
-                                        rowNonZero = true;
-                                    }else{
-                                        l -= 1;
-                                    }
-                                }
-                            }*/
                         }else{
-                            makeElmtBeforeLeadingToZero(i, j, MGauss);
+                            makeElmtBeforeLeadingToZero(i, j, rowLeading, MGauss);
                             divideAllbyLeading(i, j, MGauss);
                         } 
                                        
