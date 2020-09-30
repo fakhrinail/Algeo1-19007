@@ -78,7 +78,7 @@ public class Main {
                     System.out.println();
                 }
             }
-            else if (opsi == 3) { //Metode balikan
+            else if (opsi == 3) { //Metode matriks balikan
                 Inverse M1 = new Inverse();
                 M1.makeInverse();
                 
@@ -116,11 +116,44 @@ public class Main {
             else{
 
             }
-        } else if (menu == 2) {
+        } else if (menu == 2) { // Determinan
+            Inverse M = new Inverse();
+            M.makeInverse();
+            float nilaiDeterminan = M.Determinan(M.getWholeTab());
+            System.out.println(nilaiDeterminan);
             
-        } else if (menu == 3) {
+        } else if (menu == 3) { //matriks balikan
+            Inverse M = new Inverse();
+            M.makeInverse();
+            float[][] tabTemp = M.inverse(M.getWholeTab());
+            for (int i = 0; i < M.getBaris(); i++) {
+                for (int j = 0; j < M.getKolom(); j++) {
+                    System.out.print(tabTemp[i][j] + " ");
+                }
+                System.out.println();
+            }
+
             
-        } else if (menu == 4) {
+        } else if (menu == 4) { //interpolasi
+            interpolasi firstInterpolasi = new interpolasi();
+            firstInterpolasi.makeInterpolasi();
+            float[][] tabTemp = firstInterpolasi.convertToMatriks();
+
+            matriks M = new matriks();
+            M.setBaris(firstInterpolasi.getBaris());
+            M.setKolom(firstInterpolasi.getBaris()+1);
+            M.setWholeTabFloat(tabTemp);
+
+            tabTemp = M.matriksToGauss();
+            M.gaussToGaussJordan(tabTemp);
+
+            for (int i = 0; i < M.getBaris(); i++) {
+                for (int j = 0; j < M.getKolom(); j++) {
+                    System.out.print(tabTemp[i][j] + " ");
+                }
+                System.out.println();
+            }
+
             
         } else if (menu == 5) {
             

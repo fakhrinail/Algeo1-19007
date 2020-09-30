@@ -24,7 +24,7 @@ public class interpolasi {
                         this.setElmt(scan.nextFloat(), i,j);
                     }else{
                         System.out.println("Masukkan nilai y dari titik ke-" + (i+1));
-                    this.setElmt(scan.nextFloat(), i,j);
+                        this.setElmt(scan.nextFloat(), i,j);
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class interpolasi {
                 if (j==this.getBaris()){
                     matriksSPL[i][j] = this.getElmt(i, 1);                    
                 }else{
-                    double nilaiX = (double) this.getElmt(i, j);
+                    double nilaiX = (double) this.getElmt(i, 0);
                     matriksSPL[i][j] = (float) Math.pow(nilaiX, j);
                 }
                 j+=1;
@@ -90,5 +90,6 @@ public class interpolasi {
         }
         return matriksSPL;
     }
+
 
 }

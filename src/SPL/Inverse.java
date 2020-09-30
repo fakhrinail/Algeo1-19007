@@ -8,14 +8,12 @@ public class Inverse {
 
     public void makeInverse() {
         try (Scanner scan = new Scanner(System.in)) {
-            System.out.print("Masukkan jumlah baris matriks : ");
-            int row = scan.nextInt();
-            System.out.print("Masukkan jumlah kolom matriks : ");
-            int column = scan.nextInt();
+            System.out.print("Masukkan n, sebagai nxn matriks : ");
+            int n = scan.nextInt();
             
-            this.setBaris(row);
-            this.setKolom(column);
-            this.tabFloat = new float[row][column];
+            this.setBaris(n);
+            this.setKolom(n);
+            this.tabFloat = new float[n][n];
 
             for (int i = 0; i < this.getBaris(); i++) {
                 for (int j = 0; j < this.getKolom(); j++) {
