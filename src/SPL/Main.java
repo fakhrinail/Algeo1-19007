@@ -26,14 +26,14 @@ public class Main {
             int opsi = scan.nextInt();
             if (opsi == 1) { //Metode Gauss
                 matriks M1 = new matriks();
-                float[][] tabInput = {{0,1,0,0,1,0,2},{0,0,0,1,1,0,-1},{0,1,0,0,0,1,1}};
+                float[][] tabInput = {{1,1,-1,-1,1},{2,5,-7,-5,-2},{2,-1,1,3,4},{5,2,-4,2,6}};
                 /*
                 {{1,1,-1,-1,1},{2,5,-7,-5,-2},{2,-1,1,3,4},{5,2,-4,2,6}}
                 {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1}}
                 {{0,1,0,0,1,0,2},{0,0,0,1,1,0,-1},{0,1,0,0,0,1,1}}
                 */
-                M1.setBaris(3);
-                M1.setKolom(7);
+                M1.setBaris(4);
+                M1.setKolom(5);
                 M1.setWholeTabFloat(tabInput);
                 
                 //Matriks M2, matriks yang berisi matriks setelah
@@ -50,7 +50,33 @@ public class Main {
                 }
             }
             else if(opsi == 2) { //Metode Gauss-Jordan
+                matriks M1 = new matriks();
+                float[][] tabInput = {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1}};
+                /*
+                {{1,1,-1,-1,1},{2,5,-7,-5,-2},{2,-1,1,3,4},{5,2,-4,2,6}}
+                {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1}}
+                {{0,1,0,0,1,0,2},{0,0,0,1,1,0,-1},{0,1,0,0,0,1,1}}
+                */
+                M1.setBaris(4);
+                M1.setKolom(6);
+                M1.setWholeTabFloat(tabInput);
+
+                float[][] tabTemp = M1.matriksToGauss();
+                M1.gaussToGaussJordan(tabTemp);         //tabTemp sudah bernilai gauss-jordan
                 
+                //Matriks M2, matriks yang berisi matriks setelah
+                matriks M2 = new matriks();
+                M2.copyMatriks(M1);
+
+                M2.setWholeTabFloat(tabTemp);
+
+
+                for (int i = 0; i < M2.getBaris(); i++) {
+                    for (int j = 0; j < M2.getKolom(); j++) {
+                        System.out.print(M2.getElmt(i, j) + " ");
+                    }
+                    System.out.println();
+                }
             }
             else if (opsi == 3) { //Metode balikan
                 Inverse M1 = new Inverse();

@@ -98,9 +98,8 @@ public class matriks {
         while (j<this.getKolom() && MTarget[i][j]==0){
             j+=1;
         }
-        if (j>column){
-            j-=1;
-        }
+                  
+        j-=1;               //dikurangi 1 karena kita ingin indeks menunjuk elemen yang bernilai 0 paling kanan dari kolom leading        
 
         while (i < this.getBaris() && !ketemu && j>=0){
             if (MTarget[i][j]!=0){
@@ -203,9 +202,27 @@ public class matriks {
             columnLeading+=1;
         }
 
-
-
         return MGauss;
     }
+    
+    public void gaussToGaussJordan(float[][] MGaussToJordan){
+        for (int i=0; i<this.getBaris()-1;i++){
+            for (int iterasiBaris=i+1; iterasiBaris<this.getBaris(); iterasiBaris++){
+                int j = 0;
+                while (j<this.getKolom()-1 && MGaussToJordan[iterasiBaris][j]==0){
+                    j+=1;
+                }
+                if (MGaussToJordan[iterasiBaris][j]==1){
+                    float pengali = MGaussToJordan[i][j];
+                    for (int k=0; k<this.getKolom(); k++){
+                        float val1 = MGaussToJordan[i][k];
+                        float val2 = MGaussToJordan[iterasiBaris][k];
+                        MGaussToJordan[i][k] = val1 - (pengali*val2);
+                    }
+                }
+            }
+        }
+    }
+
 
 }
