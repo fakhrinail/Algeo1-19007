@@ -2,6 +2,12 @@
 package SPL;
 
 import java.io.File;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Scanner;
 
 public class cramer {
@@ -178,6 +184,23 @@ public class cramer {
             System.out.print(i+1);
             System.out.print(" adalah ");
             System.out.println(hasil[i]);
+        }
+    }
+
+    public void printTxt(float[] hasil) {
+        try {
+            File myObj = new File("hasilcramer.txt");
+            FileWriter myWriter = new FileWriter(myObj);
+            String s;
+            for (int i = 0; i < hasil.length; i++) {
+                s = Float.toString(hasil[i]);
+                myWriter.write(s);
+                myWriter.write(" ");
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 }
