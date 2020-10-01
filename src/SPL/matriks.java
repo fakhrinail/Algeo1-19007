@@ -209,7 +209,7 @@ public class matriks {
         for (int i=0; i<this.getBaris()-1;i++){
             for (int iterasiBaris=i+1; iterasiBaris<this.getBaris(); iterasiBaris++){
                 int j = 0;
-                while (j<this.getKolom()-1 && MGaussToJordan[iterasiBaris][j]==0){
+                while (j<this.getKolom()-2 && MGaussToJordan[iterasiBaris][j]==0){  //dikurangi 2 agar pada kasus tidak terdefinisi nilai y tidak menjadi 0
                     j+=1;
                 }
                 if (MGaussToJordan[iterasiBaris][j]==1){
@@ -224,5 +224,53 @@ public class matriks {
         }
     }
 
+    public void outputHasil(float[][] matriksFix){
+        String[] penyimpanNilai = new String[this.getKolom()-1];
+        
+        for (int k=0; k<this.getKolom()-1; k++){
+            penyimpanNilai[k] = "x" + (k+1);
+        }
+
+        boolean define = true;
+        int i=this.getBaris()-1;
+        while (i>=0 && define==true){
+            int j=0;
+            
+            String perLine =  matriksFix[i][this.getKolom()-1] + "";
+        
+            while(j<=this.getKolom()-2 && matriksFix[i][j]==0){
+                    j+=1;
+            }
+            if (j == this.getKolom()-1 && matriksFix[i][j]!=0){
+                System.out.println("Solusi tidak ada.");
+                define=false;
+                i-=1;
+            }else if(j == this.getKolom()-1 && matriksFix[i][j]==0){
+                i-=1;
+            }else{
+                int l;
+                for (l=j+1; l<=this.getKolom()-2; l++){
+                    if (matriksFix[i][l]!=0){
+                        if (matriksFix[i][l]>=0){
+                            perLine = perLine + " - " + matriksFix[i][l] + penyimpanNilai[l];
+                        }else{
+                            perLine = perLine + " + " + (-matriksFix[i][l]) + penyimpanNilai[l];
+                        }
+                        
+                    }
+                }
+                System.out.println(penyimpanNilai[j] + " = " + perLine);
+                penyimpanNilai[j] = "DONE";
+                i-=1;
+            } 
+        }
+        if (define){
+            for (int m=0; m<this.getKolom()-1; m++){
+                if (penyimpanNilai[m]!="DONE"){
+                    System.out.println(penyimpanNilai[m] + " = " + penyimpanNilai[m]);
+                }
+            }
+        }
+    }
 
 }
