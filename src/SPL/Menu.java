@@ -110,8 +110,17 @@ public class Menu {
     }
     public static void MatrisBalikan() {
         Inverse M = new Inverse();
+        cramer C = new cramer();
         M.makeInverse();
+        Scanner scan = new Scanner();
         float[][] tabTemp = M.inverse(M.getWholeTab());
+        float[][] hasilY = new float[M.getBaris()][1];
+        float[] hasil = new float[M.getBaris()][1];
+        for (int i = 0; i < hasilY.length; i++) {
+            hasilY[i][0] = scan.nextFloat();
+        }
+        hasil = M.kaliMatriks(tabTemp, hasilY);
+        
         for (int i = 0; i < M.getBaris(); i++) {
             for (int j = 0; j < M.getKolom(); j++) {
                 System.out.print(tabTemp[i][j] + " ");
