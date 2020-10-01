@@ -12,50 +12,153 @@ public class Menu {
         Scanner scan = new Scanner(System.in);
 
         try {
+            
             int opsi = scan.nextInt();
             if (opsi == 1) { //Metode Gauss
-                matriks M1 = new matriks();
-                float[][] tabInput = {{1,1,-1,-1,1},{2,5,-7,-5,-2},{2,-1,1,3,4},{5,2,-4,2,6}};
-                M1.setBaris(4);
-                M1.setKolom(5);
+
+                System.out.print("Masukkan jumlah baris SPL anda: ");
+                int baris = scan.nextInt();
+                System.out.print("Masukkan jumlah variabel SPL anda: ");    //jumlah variabel tidak termasuk kolom paling kanan
+                int kolom = scan.nextInt();
+
+                matriks M1 = new matriks();         //matriks1 adalah matriks raw
+                float[][] tabInput = new float[baris][kolom+1];     //ditambah 1 untuk kolom paling kanan
+                M1.setBaris(baris);
+                M1.setKolom(kolom+1);
                 M1.setWholeTabFloat(tabInput);
                 
                 //Matriks M2, matriks yang berisi matriks setelah
-                matriks M2 = new matriks();
+                matriks M2 = new matriks();         //matriks2 akan dijadikan matriks yang telah diproses gauss
                 M2.copyMatriks(M1);
 
                 M2.setWholeTabFloat(M1.matriksToGauss());
 
+                float[][] tabTemp = M2.getWholeTab();
+
+                M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
+                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
+            }
+            else if(opsi == 2) { //Metode Gauss-Jordan
+                System.out.print("Masukkan jumlah baris SPL anda: ");
+                int baris = scan.nextInt();
+                System.out.print("Masukkan jumlah variabel SPL anda: ");    //jumlah variabel tidak termasuk kolom paling kanan
+                int kolom = scan.nextInt();
+
+                matriks M1 = new matriks();         //matriks1 adalah matriks raw
+                float[][] tabInput = new float[baris][kolom+1];     //ditambah 1 untuk kolom paling kanan
+                M1.setBaris(baris);
+                M1.setKolom(kolom+1);
+                M1.setWholeTabFloat(tabInput);
+                
+                //Matriks M2, matriks yang berisi matriks setelah
+                matriks M2 = new matriks();         //matriks2 akan dijadikan matriks yang telah diproses gauss
+                M2.copyMatriks(M1);
+
+                M2.setWholeTabFloat(M1.matriksToGauss());
+
+                float[][] tabTemp = M2.getWholeTab();
+
+                M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
+                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
+            }
+            else if (opsi == 3) { //Metode balikan
+                Inverse M1 = new Inverse();
+                M1.makeInverse();
+                
+                //Matriks M2, matriks yang berisi matriks setelah
+                Inverse M2 = new Inverse();
+                M2.copyMatriks(M1);
+
+                M2.setWholeTabFloat(M1.inverse(M2.getWholeTab()));
+                
                 for (int i = 0; i < M2.getBaris(); i++) {
                     for (int j = 0; j < M2.getKolom(); j++) {
                         System.out.print(M2.getElmt(i, j) + " ");
+                    }
+                    System.out.println();
+                }
+                matriks M3 = new matriks();
+                M3.makeSPL();
+                
+                //Matriks M4, matriks yang berisi matriks setelah
+                matriks M4 = new matriks();
+                M4.copyMatriks(M3);
+                
+                for (int i = 0; i < M4.getBaris(); i++) {
+                    for (int j = 0; j < M4.getKolom(); j++) {
+                        System.out.print(M4.getElmt(i, j) + " ");
                     }
                     System.out.println();
                 }
             }
-            else if(opsi == 2) { //Metode Gauss-Jordan
-                matriks M1 = new matriks();
-                float[][] tabInput = {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1}};
-                M1.setBaris(4);
-                M1.setKolom(6);
-                M1.setWholeTabFloat(tabInput);
+            else if (opsi == 4) { //Metode Cramer
+                cramer MC1 = new cramer();
+                MC1.makeCramer();
+                MC1.printHasil(MC1.cramerMethod());
+            }
+            else{
+                System.out.println("Invalid Input");
+                SPL();
+            }
+            
+        } catch (Exception e) {
+            //TODO: handle exception
+            System.out.println("Invalid input");
+            SPL();
+        }
+    }
+    public static void DeterminanDanMatriksBalikan() {
+        System.out.println("1. Metode eliminasi Gauss");
+        System.out.println("2. Metode eliminasi Gauss-Jordan");
+        System.out.println("3. Metode matriks balikan");
+        System.out.println("4. Kaidah Cramer");
 
-                float[][] tabTemp = M1.matriksToGauss();
-                M1.gaussToGaussJordan(tabTemp);         //tabTemp sudah bernilai gauss-jordan
+        Scanner scan = new Scanner(System.in);
+
+        try {
+            int opsi = scan.nextInt();
+            if (opsi == 1) { //Metode Gauss
+
+                System.out.print("Masukkan n, sebagai nxn MATRIKS anda: ");
+                int n = scan.nextInt();
+
+                matriks M1 = new matriks();                         //matriks1 adalah matriks raw
+                float[][] tabInput = new float[n][n];     //ditambah 1 untuk kolom paling kanan
+                M1.setBaris(n);
+                M1.setKolom(n);
+                M1.setWholeTabFloat(tabInput);
                 
                 //Matriks M2, matriks yang berisi matriks setelah
-                matriks M2 = new matriks();
+                matriks M2 = new matriks();         //matriks2 akan dijadikan matriks yang telah diproses gauss
                 M2.copyMatriks(M1);
 
-                M2.setWholeTabFloat(tabTemp);
+                M2.setWholeTabFloat(M1.matriksToGauss());
 
+                float[][] tabTemp = M2.getWholeTab();
 
-                for (int i = 0; i < M2.getBaris(); i++) {
-                    for (int j = 0; j < M2.getKolom(); j++) {
-                        System.out.print(M2.getElmt(i, j) + " ");
-                    }
-                    System.out.println();
-                }
+                M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
+                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
+            }
+            else if(opsi == 2) { //Metode Gauss-Jordan
+                System.out.print("Masukkan n, sebagai nxn MATRIKS anda: ");
+                int n = scan.nextInt();
+
+                matriks M1 = new matriks();                         //matriks1 adalah matriks raw
+                float[][] tabInput = new float[n][n];     //ditambah 1 untuk kolom paling kanan
+                M1.setBaris(n);
+                M1.setKolom(n);
+                M1.setWholeTabFloat(tabInput);
+                
+                //Matriks M2, matriks yang berisi matriks setelah
+                matriks M2 = new matriks();         //matriks2 akan dijadikan matriks yang telah diproses gauss
+                M2.copyMatriks(M1);
+
+                M2.setWholeTabFloat(M1.matriksToGauss());
+
+                float[][] tabTemp = M2.getWholeTab();
+
+                M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
+                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
             }
             else if (opsi == 3) { //Metode balikan
                 Inverse M1 = new Inverse();
@@ -99,14 +202,8 @@ public class Menu {
         } catch (Exception e) {
             //TODO: handle exception
             System.out.println("Invalid input");
-            SPL();
+            DeterminanDanMatriksBalikan();
         }
-    }
-    public static void Determinan () {
-        Inverse M = new Inverse();
-        M.makeInverse();
-        float nilaiDeterminan = M.Determinan(M.getWholeTab());
-        System.out.println(nilaiDeterminan);
     }
     public static void MatrisBalikan() {
         Inverse M = new Inverse();

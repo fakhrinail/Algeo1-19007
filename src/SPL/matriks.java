@@ -65,6 +65,10 @@ public class matriks {
         return this.tabFloat[row][column];
     }
 
+    public float[][] getWholeTab(){
+        return this.tabFloat;
+    }
+
     /*METHOD*/
     public void copyMatriks(matriks MSource){
         this.baris = MSource.baris;
