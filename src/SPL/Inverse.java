@@ -176,21 +176,14 @@ public class Inverse {
         int i, j;
         float[][] mHasilKali;
         mHasilKali = new float[matriks1.length][matriks2[0].length];
-        for (i = 0; i < this.getBaris(); i++){
-            for (j = 0; j < this.getKolom(); j++){
-                int barisMatriks1 = i;
-                int kolomMatriks1 = 0;
-                int barisMatriks2 = 0;
-                int kolomMatriks2 = j;
-                float temp = 0;
-                while(kolomMatriks1 < matriks1.length){
-                    temp += matriks1[barisMatriks1][kolomMatriks1] * matriks2[barisMatriks2][kolomMatriks2];
-                    kolomMatriks1 += 1;
-                    barisMatriks2 += 1;
+        for (i = 0; i < matriks1.length; i++){
+            for (j = 0; j < matriks2[0].length; j++){
+                for (int k = 0; k < matriks2.length; k++) {
+                    mHasilKali[i][j] += (matriks1[i][k] * matriks2[k][j]);
                 }
-                mHasilKali[i][j] = temp;
             }
         }
+
         return mHasilKali;
     }
 }
