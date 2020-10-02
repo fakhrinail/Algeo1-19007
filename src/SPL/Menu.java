@@ -131,7 +131,7 @@ public class Menu {
             else if (opsi == 4) { //Metode Cramer
                 cramer MC1 = new cramer();
                 MC1.makeCramer();
-                MC1.printTxt(MC1.cramerMethod());
+                MC1.printHasil(MC1.cramerMethod());
             }
             else{
                 System.out.println("Invalid Input");
@@ -143,6 +143,7 @@ public class Menu {
         }
     }
     public static void Determinan() {
+        /*
         System.out.println("1. Metode Reduksi Baris");
         System.out.println("2. Metode ekspansi kofaktor");
 
@@ -154,8 +155,17 @@ public class Menu {
             System.out.println("Invalid input");
             
         }
+        */
+        Inverse inv = new Inverse();
+        inv.makeInverse();
+        float[][] matriks = new float[inv.getBaris()][inv.getKolom()];
+        float det = 0;
+        matriks = inv.getWholeTab();
+        det = inv.Determinan(matriks);
+        inv.printTxtDet(det);
     }
     public static void MatriksBalikan() {
+        /*
         System.out.println("1. Metode Reduksi Baris");
         System.out.println("2. Metode ekspansi kofaktor");
 
@@ -167,6 +177,13 @@ public class Menu {
             System.out.println("Invalid input");
             
         }
+        */
+        Inverse inv = new Inverse();
+        inv.makeInverse();
+        float[][] matriks = new float[inv.getBaris()][inv.getKolom()];
+        matriks = inv.getWholeTab();
+        matriks = inv.inverse(matriks);
+        inv.printTxtInverse(matriks);
     }
 
     public static void Interpolasi() {
@@ -232,6 +249,6 @@ public class Menu {
         regresi reg = new regresi();
         reg.makeRegresi();
         float[][] spl = reg.makeSPL();
-        reg.printTxt(spl);
+        reg.printHasil(spl);
     }
 }

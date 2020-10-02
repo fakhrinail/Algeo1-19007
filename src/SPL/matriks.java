@@ -277,4 +277,19 @@ public class matriks {
         }
     }
 
+    public void printTxt(float[][] matriksFix) {
+        try {
+            String filename = "hasilgauss.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s = "";
+            s = Float.toString(det);
+            myWriter.write("Determinan adalah " + s);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
 }

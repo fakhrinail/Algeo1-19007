@@ -1,6 +1,12 @@
 package SPL;
+
 import java.util.Scanner;
 import java.lang.Math;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.Writer;
+import java.util.Scanner;
 
 public class Inverse {
     private int baris,kolom;
@@ -237,6 +243,47 @@ public class Inverse {
             System.out.print(i+1);
             System.out.print(" adalah ");
             System.out.println(hasil[i][0]);
+        }
+    }
+
+    public void printTxtInverse(float[][] hasil) {
+        try {
+            String filename = "hasilinverse.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s = "";
+            String elmnt;
+            for (int i = 0; i < hasil.length; i++) {
+                for (int j = 0; j < hasil[0].length; j++) {
+                    if (j == hasil[0].length-1) {
+                        elmnt = Float.toString(hasil[i][j]);
+                        s += (elmnt + "\n");
+                    } else {
+                        elmnt = Float.toString(hasil[i][j]);
+                        s += (elmnt + " ");
+                    }
+                }
+            }
+            myWriter.write(s);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void printTxtDet(float det) {
+        try {
+            String filename = "hasildet.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s = "";
+            s = Float.toString(det);
+            myWriter.write("Determinan adalah " + s);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 }
