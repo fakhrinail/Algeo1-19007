@@ -236,7 +236,13 @@ public class matriks {
         }
 
         boolean define = true;
-        int i=this.getBaris()-1;
+        int i;
+        if (matriksFix.length>matriksFix[0].length){
+            i = this.getKolom()-2;
+        }else{
+            i = this.getBaris()-1;
+        }
+        
         while (i>=0 && define==true){
             int j=0;
             

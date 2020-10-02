@@ -20,7 +20,7 @@ public class Main {
         if (menu == 1) {
             Menu.SPL();
         } else if (menu == 2) { // Determinan
-            Menu.DeterminanDanMatriksBalikan();
+            Menu.Determinan();
         } else if (menu == 3) { //matriks balikan
             Menu.MatriksBalikan();
         } else if (menu == 4) { //interpolasi
