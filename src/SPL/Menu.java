@@ -105,7 +105,6 @@ public class Menu {
                 M2.setWholeTabFloat(M1.inverse(M2.getWholeTab()));
                  
                 //Matriks M4, matriks yang berisi matriks setelah
-                M2.printTxtSPLInv(M2.getWholeTab());
 
                 /* kalo mau output txt 
                 Inverse inv = new Inverse();
