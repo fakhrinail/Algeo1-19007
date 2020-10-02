@@ -1,6 +1,12 @@
 package SPL;
 
 import java.util.Scanner;
+import java.lang.Math;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.Writer;
+import java.util.Scanner;
 
 /**
  * matriks
@@ -266,7 +272,6 @@ public class matriks {
                         }else{
                             perLine = perLine + " + " + (-matriksFix[i][l]) + penyimpanNilai[l];
                         }
-                        
                     }
                 }
                 System.out.println(penyimpanNilai[j] + " = " + perLine);
@@ -280,6 +285,64 @@ public class matriks {
                     System.out.println(penyimpanNilai[m] + " = " + penyimpanNilai[m]);
                 }
             }
+        }
+    }
+
+    public void printTxt(float[][] matriksFix) {
+        try {
+            String filename = "hasilgauss.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s = "";
+            String[] penyimpanNilai = new String[this.getKolom()-1];
+        
+            for (int k=0; k<this.getKolom()-1; k++){
+                penyimpanNilai[k] = "x" + (k+1);
+            }
+    
+            boolean define = true;
+            int i=this.getBaris()-1;
+            while (i>=0 && define==true){
+                int j=0;
+                
+                String perLine =  matriksFix[i][this.getKolom()-1] + "";
+            
+                while(j<=this.getKolom()-2 && matriksFix[i][j]==0){
+                        j+=1;
+                }
+                if (j == this.getKolom()-1 && matriksFix[i][j]!=0){
+                    myWriter.write("Solusi tidak ada.\n");
+                    define=false;
+                    i-=1;
+                }else if(j == this.getKolom()-1 && matriksFix[i][j]==0){
+                    i-=1;
+                }else{
+                    int l;
+                    for (l=j+1; l<=this.getKolom()-2; l++){
+                        if (matriksFix[i][l]!=0){
+                            if (matriksFix[i][l]>=0){
+                                perLine = perLine + " - " + matriksFix[i][l] + penyimpanNilai[l];
+                            }else{
+                                perLine = perLine + " + " + (-matriksFix[i][l]) + penyimpanNilai[l];
+                            }
+                        }
+                    }
+                    myWriter.write(penyimpanNilai[j] + " = " + perLine + "\n");
+                    penyimpanNilai[j] = "DONE";
+                    i-=1;
+                } 
+            }
+            if (define){
+                for (int m=0; m<this.getKolom()-1; m++){
+                    if (penyimpanNilai[m]!="DONE"){
+                        myWriter.write(penyimpanNilai[m] + " = " + penyimpanNilai[m] + "\n");
+                    }
+                }
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 

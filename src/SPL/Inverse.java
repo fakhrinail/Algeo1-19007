@@ -1,29 +1,41 @@
 package SPL;
+
 import java.util.Scanner;
 import java.lang.Math;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.Writer;
+import java.util.Scanner;
 
 public class Inverse {
     private int baris,kolom;
     private float[][] tabFloat;
+    private float[][] tabY;
+
+    Scanner scan = new Scanner(System.in);
 
     public void makeInverse() {
-        try (Scanner scan = new Scanner(System.in)) {
-            System.out.print("Masukkan n, sebagai nxn matriks : ");
-            int n = scan.nextInt();
+        System.out.print("Masukkan n, sebagai nxn matriks : ");
+        int n = scan.nextInt();
             
-            this.setBaris(n);
-            this.setKolom(n);
-            this.tabFloat = new float[n][n];
+        this.setBaris(n);
+        this.setKolom(n);
+        this.tabFloat = new float[n][n];
 
-            for (int i = 0; i < this.getBaris(); i++) {
-                for (int j = 0; j < this.getKolom(); j++) {
-                    System.out.println("Masukkan nilai elemen baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
-                    this.setElmt(scan.nextFloat(), i,j);
-                }
+        for (int i = 0; i < this.getBaris(); i++) {
+            for (int j = 0; j < this.getKolom(); j++) {
+                System.out.println("Masukkan nilai elemen baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
+                this.setElmt(scan.nextFloat(), i,j);
             }
-            
-        } catch (Exception e) {
-            System.out.println("Invalid input");
+        }
+    }
+
+    public void makeMatriksY() {
+        this.tabY = new float[tabFloat.length][1];
+        for (int i = 0; i < tabFloat.length; i++) {
+            System.out.println("Masukkan nilai y pada baris ke-" + (i+1));
+            this.tabY[i][0] = scan.nextFloat();
         }
     }
 
@@ -59,6 +71,9 @@ public class Inverse {
     public float[][] getWholeTab(){
         return this.tabFloat;
     }
+    public float[][] getWholeTabY() {
+        return this.tabY;
+    }
 
     /*METHOD*/
     public void copyMatriks(Inverse MSource){
@@ -67,7 +82,7 @@ public class Inverse {
         this.tabFloat = MSource.tabFloat;
     }
 
-   public float Determinan(float[][] matriks) {
+    public float Determinan(float[][] matriks) {
         if (matriks.length==2 && matriks[0].length==2){
             return (matriks[0][0]*matriks[1][1]) - (matriks[0][1]*matriks[1][0]);
         }else if (matriks.length==1 && matriks[0].length==1){
@@ -151,8 +166,6 @@ public class Inverse {
             }
             i += 1;
         }
-    
-        
     }
 
     public boolean cantInverse(float[][] matriks){
@@ -205,6 +218,7 @@ public class Inverse {
             return m;
         }
     }
+
     public float[][] kaliMatriks(float[][] matriks1,float[][] matriks2){
         int i, j;
         float[][] mHasilKali;
@@ -216,8 +230,97 @@ public class Inverse {
                 }
             }
         }
-
         return mHasilKali;
     }
+
+    public float[][] cariHasil() {
+        float[][] hasil = new float[this.tabFloat.length][1];
+        float[][] inverseX = new float[this.tabFloat[0].length][this.tabFloat.length];
+        inverseX = inverse(this.tabFloat);
+        hasil = kaliMatriks(inverseX,this.tabY);
+        return hasil;
+    }
+
+    public void printHasil(float[][] hasil) {
+        for (Integer i = 0; i < hasil.length; i++) {
+            System.out.print("Hasil elemen ke-");
+            System.out.print(i+1);
+            System.out.print(" adalah ");
+            System.out.println(hasil[i][0]);
+        }
+    }
+
+    public void printTxtInverse(float[][] hasil) {
+        try {
+            String filename = "hasilinverse.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s = "";
+            String elmnt;
+            for (int i = 0; i < hasil.length; i++) {
+                for (int j = 0; j < hasil[0].length; j++) {
+                    if (j == hasil[0].length-1) {
+                        elmnt = Float.toString(hasil[i][j]);
+                        s += (elmnt + "\n");
+                    } else {
+                        elmnt = Float.toString(hasil[i][j]);
+                        s += (elmnt + " ");
+                    }
+                }
+            }
+            myWriter.write(s);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void printTxtDet(float det) {
+        try {
+            String filename = "hasildet.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s = "";
+            s = Float.toString(det);
+            myWriter.write("Determinan adalah " + s);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void prosesTxtSPLInv() {
+        makeInverse();
+        makeMatriksY();
+        float[][] inv = new float[getBaris()][getKolom()];
+        inv = getWholeTab();
+        inv = inverse(inv);
+        float[][] matY = getWholeTabY();
+        M1.printTxtSPLInv(inv,matY);
+    }
+
+    public void printTxtSPLInv(float[][] inv, float[][] matriksY) {
+        try {
+            String filename = "hasilsplinv.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s;
+            if (cantInverse(inv)){
+                myWriter.write("Solusi tidak dapat dicari karena determinan 0.\n");
+            }else{
+                float[][] tabTemp = kaliMatriks(inv, matriksY);
+                for (int i=0; i<tabTemp.length; i++){
+                    myWriter.write("x" +(i+1)+ " = " +tabTemp[i][0] + "\n");
+                }
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 }
+
 

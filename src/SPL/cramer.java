@@ -2,8 +2,6 @@
 package SPL;
 
 import java.io.File;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.OutputStream;
@@ -14,42 +12,46 @@ public class cramer {
     private int baris,kolom;
     private float[][] tabFloat;
 
+    static Scanner output = new Scanner(System.in);
+
     public void makeTxt() {
-        /*
-        File myFile = new File ("../matrix.txt");
-        //System.out.println(new File(".").getAbsolutePath());
+        String fileName = "matrix.txt";
+        File myFile = new File (fileName);
         Scanner myScan = new Scanner(myFile);
         int row = 0;
         int column = 0;
         int coltmp = 0;
-        float[][] matriks = new float[4][4];
 
         while (myScan.hasNextLine()){
-            //Scanner scan = new Scanner(matriks);
+            ++row;
             while (myScan.hasNextFloat()) {
-                matriks[row][coltmp] = myScan.nextFloat();
-                coltmp++;
-                column++;
+                ++column;
             }
-            coltmp = 0;
-            row++;
         }
 
-        for (int i = 0; i < matriks.length; i++) {
-            for (int j = 0; j < matriks[0].length; j++) {
-                System.out.print(matriks[i][j] + " ");
+        float[][] matriks = new float[row][column];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                if (myScan.hasNext()) {
+                    matriks[i][j] = myScan.nextInt();
+                }
             }
             System.out.println();
         }
-        */
+
+        this.setBaris(row);
+        this.setKolom(column);
+        this.tabFloat = new float[row][column];
+        
     }
 
-
+    
     public void makeCramer() {
         try (Scanner scan = new Scanner(System.in)) {
-            System.out.println("Masukkan jumlah baris matriks : ");
+            System.out.println("Masukkan jumlah baris matriks (augmented) : ");
             int row = scan.nextInt();
-            System.out.println("Masukkan jumlah kolom matriks : ");
+            System.out.println("Masukkan jumlah kolom matriks (augmented) : ");
             int column = scan.nextInt();
             
             this.setBaris(row);
@@ -58,8 +60,13 @@ public class cramer {
 
             for (int i = 0; i < this.getBaris(); i++) {
                 for (int j = 0; j < this.getKolom(); j++) {
-                    System.out.println("Masukkan nilai elemen baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
-                    this.setElmt(scan.nextFloat(), i,j);
+                    if (j == this.getKolom()-1){
+                        System.out.println("Masukkan nilai y baris ke-" + (i+1) + ": ");
+                        this.setElmt(scan.nextFloat(), i,j);
+                    } else {
+                        System.out.println("Masukkan nilai x pada baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
+                        this.setElmt(scan.nextFloat(), i,j);
+                    }
                 }
             }
             
@@ -167,37 +174,53 @@ public class cramer {
         float pembagi;
 
         pembagi = determinan(squareMatrix(this.tabFloat));
-
-        for (int i = 0; i < hasil.length; i++) {
-            float[][] matrikscopy = copyMatriks(this.tabFloat);
-            switchColumn(matrikscopy, i);
-            matriksbaru = squareMatrix(matrikscopy);
-            hasil[i] = determinan(matriksbaru) / pembagi;
+        if (pembagi == 0) {
+            for (int i = 0; i < hasil.length; i++) {
+                hasil[i] = -99999;
+            }
+        }
+        else{
+            for (int i = 0; i < hasil.length; i++) {
+                float[][] matrikscopy = copyMatriks(this.tabFloat);
+                switchColumn(matrikscopy, i);
+                matriksbaru = squareMatrix(matrikscopy);
+                hasil[i] = determinan(matriksbaru) / pembagi;
+            }
         }
 
         return hasil;
     }
 
     public void printHasil(float[] hasil){
-        for (Integer i = 0; i < hasil.length; i++) {
-            System.out.print("Hasil elemen ke-");
-            System.out.print(i+1);
-            System.out.print(" adalah ");
-            System.out.println(hasil[i]);
+        if (hasil[i] == -99999) {
+            System.out.println("Determinan pembagi 0");
+            System.out.println("Tidak ada solusi");
+        } else {
+            for (Integer i = 0; i < hasil.length; i++) {
+                System.out.print("Hasil elemen ke-");
+                System.out.print(i+1);
+                System.out.print(" adalah ");
+                System.out.println(hasil[i]);
+            }
         }
     }
 
     public void printTxt(float[] hasil) {
         try {
-            File myObj = new File("hasilcramer.txt");
+            String filename = "hasilcramer.txt";
+            File myObj = new File(filename);
             FileWriter myWriter = new FileWriter(myObj);
             String s;
-            for (int i = 0; i < hasil.length; i++) {
-                s = Float.toString(hasil[i]);
-                myWriter.write(s);
-                myWriter.write(" ");
+            if (hasil[i] == -99999) {
+                s = "Determinan pembagi 0, tidak ada solusi";
+            } else {
+                for (int i = 0; i < hasil.length; i++) {
+                    s = Float.toString(hasil[i]);
+                    myWriter.write(s);
+                    myWriter.write(" ");
+                }
+                myWriter.close();
             }
-            myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

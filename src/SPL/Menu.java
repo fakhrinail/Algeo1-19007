@@ -9,10 +9,7 @@ public class Menu {
         System.out.println("3. Metode matriks balikan");
         System.out.println("4. Kaidah Cramer");
 
-        Scanner scan = new Scanner(System.in);
-
-        try {
-            
+        try (Scanner scan = new Scanner(System.in)){
             int opsi = scan.nextInt();
             if (opsi == 1) { //Metode Gauss
 
@@ -35,7 +32,6 @@ public class Menu {
                         }
                     }
                 }
-               
                 M1.setBaris(baris);
                 M1.setKolom(kolom+1);
                 M1.setWholeTabFloat(tabInput);
@@ -49,7 +45,7 @@ public class Menu {
                 float[][] tabTemp = M2.getWholeTab();
 
                 M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
-                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
+                M2.printTxt(tabTemp);            //dikeluarkan hasil SPL
             }
             else if(opsi == 2) { //Metode Gauss-Jordan
                 System.out.print("Masukkan jumlah baris SPL anda: ");
@@ -85,10 +81,9 @@ public class Menu {
                 float[][] tabTemp = M2.getWholeTab();
 
                 M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
-                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
+                M2.printTxt(tabTemp);            //dikeluarkan hasil SPL
             }
             else if (opsi == 3) { //Metode balikan
-                Inverse M1 = new Inverse();
                 System.out.print("Masukkan n, sebagai nxn matriks : ");
                 int n = scan.nextInt();
                 
@@ -110,26 +105,12 @@ public class Menu {
                 M2.setWholeTabFloat(M1.inverse(M2.getWholeTab()));
                  
                 //Matriks M4, matriks yang berisi matriks setelah
-                if (M2.cantInverse(M2.getWholeTab())){
-                    System.out.println("Solusi tidak dapat dicari karena determinan 0.");
-                }else{
-                    matriks M3 = new matriks();
-                    M3.setBaris(M2.getBaris());
-                    M3.setKolom(1);
-                    M3.setWholeTabFloat(new float[M2.getBaris()][1]);
+                M2.printTxtSPLInv(M2.getWholeTab());
 
-                    for (int i = 0; i < M3.getBaris(); i++) {
-                        for (int j = 0; j < M3.getKolom(); j++) {
-                            System.out.println("Masukkan b baris ke " +(i+1)+ " ");
-                            M3.setElmt(scan.nextFloat(), i, j);
-                        }
-                    }
-                    float[][] tabTemp = M2.kaliMatriks(M2.getWholeTab(), M3.getWholeTab());
-                    for (int i=0; i<tabTemp.length; i++){
-                        System.out.println("x" +(i+1)+ " = " +tabTemp[i][0]);
-                    }
-                }
-                
+                /* kalo mau output txt 
+                Inverse inv = new Inverse();
+                inv.prosesTxtSPLInv();
+                */
 
             }
             else if (opsi == 4) { //Metode Cramer
@@ -139,16 +120,15 @@ public class Menu {
             }
             else{
                 System.out.println("Invalid Input");
-                SPL();
             }
             
         } catch (Exception e) {
             //TODO: handle exception
             System.out.println("Invalid input");
-            SPL();
         }
     }
     public static void Determinan() {
+        /*
         System.out.println("1. Metode Reduksi Baris");
         System.out.println("2. Metode ekspansi kofaktor");
 
@@ -160,8 +140,17 @@ public class Menu {
             System.out.println("Invalid input");
             
         }
+        */
+        Inverse inv = new Inverse();
+        inv.makeInverse();
+        float[][] matriks = new float[inv.getBaris()][inv.getKolom()];
+        float det = 0;
+        matriks = inv.getWholeTab();
+        det = inv.Determinan(matriks);
+        inv.printTxtDet(det);
     }
     public static void MatriksBalikan() {
+        /*
         System.out.println("1. Metode Reduksi Baris");
         System.out.println("2. Metode ekspansi kofaktor");
 
@@ -173,6 +162,13 @@ public class Menu {
             System.out.println("Invalid input");
             
         }
+        */
+        Inverse inv = new Inverse();
+        inv.makeInverse();
+        float[][] matriks = new float[inv.getBaris()][inv.getKolom()];
+        matriks = inv.getWholeTab();
+        matriks = inv.inverse(matriks);
+        inv.printTxtInverse(matriks);
     }
 
     public static void Interpolasi() {
@@ -232,13 +228,12 @@ public class Menu {
 
             firstInterpolasi.outputInterpolasi(x, tabTemp);
         }
-            
-
-     
     }
 
     public static void Regresi() {
         regresi reg = new regresi();
-        reg.metodeRegresi();
+        reg.makeRegresi();
+        float[][] spl = reg.makeSPL();
+        reg.printHasil(spl);
     }
 }
