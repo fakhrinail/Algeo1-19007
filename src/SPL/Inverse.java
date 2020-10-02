@@ -298,7 +298,7 @@ public class Inverse {
         inv = getWholeTab();
         inv = inverse(inv);
         float[][] matY = getWholeTabY();
-        M1.printTxtSPLInv(inv,matY);
+        printTxtSPLInv(inv,matY);
     }
 
     public void printTxtSPLInv(float[][] inv, float[][] matriksY) {

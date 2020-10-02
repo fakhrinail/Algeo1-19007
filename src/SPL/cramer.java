@@ -13,7 +13,7 @@ public class cramer {
     private float[][] tabFloat;
 
     static Scanner output = new Scanner(System.in);
-
+    /*
     public void makeTxt() {
         String fileName = "matrix.txt";
         File myFile = new File (fileName);
@@ -44,7 +44,7 @@ public class cramer {
         this.setKolom(column);
         this.tabFloat = new float[row][column];
         
-    }
+    }*/
 
     
     public void makeCramer() {
@@ -192,7 +192,7 @@ public class cramer {
     }
 
     public void printHasil(float[] hasil){
-        if (hasil[i] == -99999) {
+        if (hasil[0] == -99999) {
             System.out.println("Determinan pembagi 0");
             System.out.println("Tidak ada solusi");
         } else {
@@ -204,14 +204,15 @@ public class cramer {
             }
         }
     }
-
+  
     public void printTxt(float[] hasil) {
         try {
+            
             String filename = "hasilcramer.txt";
             File myObj = new File(filename);
             FileWriter myWriter = new FileWriter(myObj);
             String s;
-            if (hasil[i] == -99999) {
+            if (hasil[0] == -99999) {
                 s = "Determinan pembagi 0, tidak ada solusi";
             } else {
                 for (int i = 0; i < hasil.length; i++) {

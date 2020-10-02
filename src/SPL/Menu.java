@@ -84,9 +84,13 @@ public class Menu {
                 M2.printTxt(tabTemp);            //dikeluarkan hasil SPL
             }
             else if (opsi == 3) { //Metode balikan
-                System.out.print("Masukkan n, sebagai nxn matriks : ");
-                int n = scan.nextInt();
-                
+                Inverse M1 = new Inverse();
+                M1.makeInverse();
+                M1.makeMatriksY();
+                M1.printHasil(M1.cariHasil());
+                /*
+                Inverse M1 = new Inverse();
+
                 M1.setBaris(n);
                 M1.setKolom(n);
                 M1.setWholeTabFloat(new float[n][n]); 
@@ -100,7 +104,8 @@ public class Menu {
                 
                 //Matriks M2, matriks yang berisi matriks setelah
                 Inverse M2 = new Inverse();
-                M2.copyMatriks(M1);
+                M2.setBaris(M1.getBaris());
+                M2.setKolom(M1.getKolom());
 
                 M2.setWholeTabFloat(M1.inverse(M2.getWholeTab()));
                  
@@ -233,6 +238,6 @@ public class Menu {
         regresi reg = new regresi();
         reg.makeRegresi();
         float[][] spl = reg.makeSPL();
-        reg.printHasil(spl);
+        reg.determineHasil(spl);
     }
 }

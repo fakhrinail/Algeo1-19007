@@ -41,7 +41,7 @@ public class Input {
 
     public static float[][] input(String namaFile) throws Exception {
 
-        String pathFile = "..\\..\\test\\" + namaFile;
+        String pathFile = "test\\" + namaFile;
         Scanner sc = new Scanner(new BufferedReader(new FileReader(pathFile)));
       
         int kolomFile = menghitungKolom(pathFile);
