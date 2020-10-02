@@ -2,8 +2,6 @@
 package SPL;
 
 import java.io.File;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.OutputStream;
@@ -14,37 +12,41 @@ public class cramer {
     private int baris,kolom;
     private float[][] tabFloat;
 
+    static Scanner output = new Scanner(System.in);
+
     public void makeTxt() {
-        /*
-        File myFile = new File ("../matrix.txt");
-        //System.out.println(new File(".").getAbsolutePath());
+        String fileName = "matrix.txt";
+        File myFile = new File (fileName);
         Scanner myScan = new Scanner(myFile);
         int row = 0;
         int column = 0;
         int coltmp = 0;
-        float[][] matriks = new float[4][4];
 
         while (myScan.hasNextLine()){
-            //Scanner scan = new Scanner(matriks);
+            ++row;
             while (myScan.hasNextFloat()) {
-                matriks[row][coltmp] = myScan.nextFloat();
-                coltmp++;
-                column++;
+                ++column;
             }
-            coltmp = 0;
-            row++;
         }
 
-        for (int i = 0; i < matriks.length; i++) {
-            for (int j = 0; j < matriks[0].length; j++) {
-                System.out.print(matriks[i][j] + " ");
+        float[][] matriks = new float[row][column];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                if (myScan.hasNext()) {
+                    matriks[i][j] = myScan.nextInt();
+                }
             }
             System.out.println();
         }
-        */
+
+        this.setBaris(row);
+        this.setKolom(column);
+        this.tabFloat = new float[row][column];
+        
     }
 
-
+    
     public void makeCramer() {
         try (Scanner scan = new Scanner(System.in)) {
             System.out.println("Masukkan jumlah baris matriks : ");
@@ -189,7 +191,8 @@ public class cramer {
 
     public void printTxt(float[] hasil) {
         try {
-            File myObj = new File("hasilcramer.txt");
+            String filename = "hasilcramer.txt";
+            File myObj = new File(filename);
             FileWriter myWriter = new FileWriter(myObj);
             String s;
             for (int i = 0; i < hasil.length; i++) {

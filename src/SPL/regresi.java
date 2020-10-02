@@ -6,6 +6,7 @@ public class regresi {
     private float[][] tabX;
     private float[][] tabY;
     private float[] nilaix;
+    private float[][] tabFloat; //untuk bisa pake gauss dan gausstojordan dari matriks.java
 
     public void makeRegresi() {
         try (Scanner scan = new Scanner(System.in)) {
@@ -131,8 +132,18 @@ public class regresi {
         return spl;
     }
 
-    public void metodeRegresi() {
-        makeRegresi();
-        makeSPL();
+    public void determineHasil(float[][] spl){
+        matriks matriks = new matriks();
+        matriks.setWholeTabFloat(spl);
+        matriks.setBaris(spl.length);
+        matriks.setKolom(spl[0].length);
+        float[][] hasilfix = matriks.matriksToGauss();
+        matriks.gaussToGaussJordan(hasilfix);
+        matriks.outputHasil(hasilfix);
+        float taksiran = hasilfix[0][hasilfix[0].length-1];
+        for (int i = 1; i < hasilfix.length; i++) {
+            taksiran += hasilfix[i][hasilfix[0].length-1]*nilaix[i-1];
+        }
+        System.out.println("Hasil taksiran adalah " + taksiran);
     }
 }
