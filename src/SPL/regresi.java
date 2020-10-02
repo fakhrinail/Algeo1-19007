@@ -1,4 +1,9 @@
 package SPL;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Scanner;
 
 public class regresi {
@@ -145,5 +150,45 @@ public class regresi {
             taksiran += hasilfix[i][hasilfix[0].length-1]*nilaix[i-1];
         }
         System.out.println("Hasil taksiran adalah " + taksiran);
+    }
+
+    public void printTxt(float[][] spl) {
+        matriks matriks = new matriks();
+        matriks.setWholeTabFloat(spl);
+        matriks.setBaris(spl.length);
+        matriks.setKolom(spl[0].length);
+        float[][] hasilfix = matriks.matriksToGauss();
+        matriks.gaussToGaussJordan(hasilfix);
+
+        float taksiran = hasilfix[0][hasilfix[0].length-1];
+        for (int i = 1; i < hasilfix.length; i++) {
+            taksiran += hasilfix[i][hasilfix[0].length-1]*nilaix[i-1];
+        }
+
+        try {
+            String filename = "hasilregresi.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s;
+            String hasil;
+            myWriter.write("Persamaan umum yang didapat adalah \n");
+            s = ("y = " + Float.toString(hasilfix[0][hasilfix[0].length-1]));
+            for (int i = 1; i < hasilfix.length; i++) {
+                if (hasilfix[i][hasilfix[0].length-1] > 0) {
+                    hasil= Float.toString(hasilfix[i][hasilfix[0].length-1]);
+                    s += ("+" + hasil + "x" + i);
+                }
+                else if (hasilfix[i][hasilfix[0].length-1] < 0) {
+                    hasil= Float.toString(hasilfix[i][hasilfix[0].length-1]*(-1));
+                    s += ("-" + hasil + "x" + i);
+                }
+            }
+            myWriter.write(s + "\n");
+            myWriter.write("Hasil taksiran adalah " + taksiran);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 }

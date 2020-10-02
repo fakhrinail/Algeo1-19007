@@ -9,10 +9,7 @@ public class Menu {
         System.out.println("3. Metode matriks balikan");
         System.out.println("4. Kaidah Cramer");
 
-        Scanner scan = new Scanner(System.in);
-
-        try {
-            
+        try (Scanner scan = new Scanner(System.in)){
             int opsi = scan.nextInt();
             if (opsi == 1) { //Metode Gauss
 
@@ -35,7 +32,6 @@ public class Menu {
                         }
                     }
                 }
-               
                 M1.setBaris(baris);
                 M1.setKolom(kolom+1);
                 M1.setWholeTabFloat(tabInput);
@@ -135,17 +131,15 @@ public class Menu {
             else if (opsi == 4) { //Metode Cramer
                 cramer MC1 = new cramer();
                 MC1.makeCramer();
-                MC1.printHasil(MC1.cramerMethod());
+                MC1.printTxt(MC1.cramerMethod());
             }
             else{
                 System.out.println("Invalid Input");
-                SPL();
             }
             
         } catch (Exception e) {
             //TODO: handle exception
             System.out.println("Invalid input");
-            SPL();
         }
     }
     public static void Determinan() {
@@ -232,13 +226,12 @@ public class Menu {
 
             firstInterpolasi.outputInterpolasi(x, tabTemp);
         }
-            
-
-     
     }
 
     public static void Regresi() {
         regresi reg = new regresi();
-        reg.metodeRegresi();
+        reg.makeRegresi();
+        float[][] spl = reg.makeSPL();
+        reg.printTxt(spl);
     }
 }

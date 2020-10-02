@@ -5,25 +5,30 @@ import java.lang.Math;
 public class Inverse {
     private int baris,kolom;
     private float[][] tabFloat;
+    private float[][] tabY;
 
     public void makeInverse() {
-        try (Scanner scan = new Scanner(System.in)) {
-            System.out.print("Masukkan n, sebagai nxn matriks : ");
-            int n = scan.nextInt();
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Masukkan n, sebagai nxn matriks : ");
+        int n = scan.nextInt();
             
-            this.setBaris(n);
-            this.setKolom(n);
-            this.tabFloat = new float[n][n];
+        this.setBaris(n);
+        this.setKolom(n);
+        this.tabFloat = new float[n][n];
 
-            for (int i = 0; i < this.getBaris(); i++) {
-                for (int j = 0; j < this.getKolom(); j++) {
-                    System.out.println("Masukkan nilai elemen baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
-                    this.setElmt(scan.nextFloat(), i,j);
-                }
+        for (int i = 0; i < this.getBaris(); i++) {
+            for (int j = 0; j < this.getKolom(); j++) {
+                System.out.println("Masukkan nilai elemen baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
+                this.setElmt(scan.nextFloat(), i,j);
             }
-            
-        } catch (Exception e) {
-            System.out.println("Invalid input");
+        }
+    }
+
+    public void makeMatriksY() {
+        this.tabY = new float[tabFloat.length][1];
+        for (int i = 0; i < tabFloat.length; i++) {
+            System.out.println("Masukkan nilai y pada baris ke-" + (i+1));
+            this.tabY[i][0] = scan.nextFloat();
         }
     }
 
@@ -67,7 +72,7 @@ public class Inverse {
         this.tabFloat = MSource.tabFloat;
     }
 
-   public float Determinan(float[][] matriks) {
+    public float Determinan(float[][] matriks) {
         if (matriks.length==2 && matriks[0].length==2){
             return (matriks[0][0]*matriks[1][1]) - (matriks[0][1]*matriks[1][0]);
         }else if (matriks.length==1 && matriks[0].length==1){
@@ -151,8 +156,6 @@ public class Inverse {
             }
             i += 1;
         }
-    
-        
     }
 
     public boolean cantInverse(float[][] matriks){
@@ -205,6 +208,7 @@ public class Inverse {
             return m;
         }
     }
+
     public float[][] kaliMatriks(float[][] matriks1,float[][] matriks2){
         int i, j;
         float[][] mHasilKali;
@@ -216,8 +220,24 @@ public class Inverse {
                 }
             }
         }
-
         return mHasilKali;
+    }
+
+    public float[][] cariHasil() {
+        float[][] hasil = new float[this.tabFloat.length][1];
+        float[][] inverseX = new float[this.tabFloat[0].length][this.tabFloat.length];
+        inverseX = inverse(this.tabFloat);
+        hasil = kaliMatriks(inverseX,this.tabY);
+        return hasil;
+    }
+
+    public void printHasil(float[][] hasil) {
+        for (Integer i = 0; i < hasil.length; i++) {
+            System.out.print("Hasil elemen ke-");
+            System.out.print(i+1);
+            System.out.print(" adalah ");
+            System.out.println(hasil[i][0]);
+        }
     }
 }
 

@@ -49,9 +49,9 @@ public class cramer {
     
     public void makeCramer() {
         try (Scanner scan = new Scanner(System.in)) {
-            System.out.println("Masukkan jumlah baris matriks : ");
+            System.out.println("Masukkan jumlah baris matriks (augmented) : ");
             int row = scan.nextInt();
-            System.out.println("Masukkan jumlah kolom matriks : ");
+            System.out.println("Masukkan jumlah kolom matriks (augmented) : ");
             int column = scan.nextInt();
             
             this.setBaris(row);
@@ -60,8 +60,13 @@ public class cramer {
 
             for (int i = 0; i < this.getBaris(); i++) {
                 for (int j = 0; j < this.getKolom(); j++) {
-                    System.out.println("Masukkan nilai elemen baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
-                    this.setElmt(scan.nextFloat(), i,j);
+                    if (j == this.getKolom()-1){
+                        System.out.println("Masukkan nilai y baris ke-" + (i+1) + ": ");
+                        this.setElmt(scan.nextFloat(), i,j);
+                    } else {
+                        System.out.println("Masukkan nilai x pada baris ke-" + (i+1) + " kolom ke-" + (j+1) +": ");
+                        this.setElmt(scan.nextFloat(), i,j);
+                    }
                 }
             }
             
@@ -169,23 +174,34 @@ public class cramer {
         float pembagi;
 
         pembagi = determinan(squareMatrix(this.tabFloat));
-
-        for (int i = 0; i < hasil.length; i++) {
-            float[][] matrikscopy = copyMatriks(this.tabFloat);
-            switchColumn(matrikscopy, i);
-            matriksbaru = squareMatrix(matrikscopy);
-            hasil[i] = determinan(matriksbaru) / pembagi;
+        if (pembagi == 0) {
+            for (int i = 0; i < hasil.length; i++) {
+                hasil[i] = -99999;
+            }
+        }
+        else{
+            for (int i = 0; i < hasil.length; i++) {
+                float[][] matrikscopy = copyMatriks(this.tabFloat);
+                switchColumn(matrikscopy, i);
+                matriksbaru = squareMatrix(matrikscopy);
+                hasil[i] = determinan(matriksbaru) / pembagi;
+            }
         }
 
         return hasil;
     }
 
     public void printHasil(float[] hasil){
-        for (Integer i = 0; i < hasil.length; i++) {
-            System.out.print("Hasil elemen ke-");
-            System.out.print(i+1);
-            System.out.print(" adalah ");
-            System.out.println(hasil[i]);
+        if (hasil[i] == -99999) {
+            System.out.println("Determinan pembagi 0");
+            System.out.println("Hasil tidak terdefinisi");
+        } else {
+            for (Integer i = 0; i < hasil.length; i++) {
+                System.out.print("Hasil elemen ke-");
+                System.out.print(i+1);
+                System.out.print(" adalah ");
+                System.out.println(hasil[i]);
+            }
         }
     }
 
@@ -195,12 +211,16 @@ public class cramer {
             File myObj = new File(filename);
             FileWriter myWriter = new FileWriter(myObj);
             String s;
-            for (int i = 0; i < hasil.length; i++) {
-                s = Float.toString(hasil[i]);
-                myWriter.write(s);
-                myWriter.write(" ");
+            if (hasil[i] == -99999) {
+                s = "Determinan pembagi 0, hasil tidak terdefinisi";
+            } else {
+                for (int i = 0; i < hasil.length; i++) {
+                    s = Float.toString(hasil[i]);
+                    myWriter.write(s);
+                    myWriter.write(" ");
+                }
+                myWriter.close();
             }
-            myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
