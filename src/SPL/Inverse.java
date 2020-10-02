@@ -13,8 +13,9 @@ public class Inverse {
     private float[][] tabFloat;
     private float[][] tabY;
 
+    Scanner scan = new Scanner(System.in);
+
     public void makeInverse() {
-        Scanner scan = new Scanner(System.in);
         System.out.print("Masukkan n, sebagai nxn matriks : ");
         int n = scan.nextInt();
             
@@ -69,6 +70,9 @@ public class Inverse {
     }
     public float[][] getWholeTab(){
         return this.tabFloat;
+    }
+    public float[][] getWholeTabY() {
+        return this.tabY;
     }
 
     /*METHOD*/
@@ -286,5 +290,37 @@ public class Inverse {
             e.printStackTrace();
         }
     }
+
+    public void prosesTxtSPLInv() {
+        makeInverse();
+        makeMatriksY();
+        float[][] inv = new float[getBaris()][getKolom()];
+        inv = getWholeTab();
+        inv = inverse(inv);
+        float[][] matY = getWholeTabY();
+        M1.printTxtSPLInv(inv,matY);
+    }
+
+    public void printTxtSPLInv(float[][] inv, float[][] matriksY) {
+        try {
+            String filename = "hasilsplinv.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj);
+            String s;
+            if (cantInverse(inv)){
+                myWriter.write("Solusi tidak dapat dicari karena determinan 0.\n");
+            }else{
+                float[][] tabTemp = kaliMatriks(inv, matriksY);
+                for (int i=0; i<tabTemp.length; i++){
+                    myWriter.write("x" +(i+1)+ " = " +tabTemp[i][0] + "\n");
+                }
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 }
+
 

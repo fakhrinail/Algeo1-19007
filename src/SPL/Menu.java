@@ -45,7 +45,7 @@ public class Menu {
                 float[][] tabTemp = M2.getWholeTab();
 
                 M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
-                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
+                M2.printTxt(tabTemp);            //dikeluarkan hasil SPL
             }
             else if(opsi == 2) { //Metode Gauss-Jordan
                 System.out.print("Masukkan jumlah baris SPL anda: ");
@@ -81,10 +81,9 @@ public class Menu {
                 float[][] tabTemp = M2.getWholeTab();
 
                 M2.gaussToGaussJordan(tabTemp);     //mengubah dahulu ke gauss-jordan sebelum dikeluarkan hasilnya
-                M2.outputHasil(tabTemp);            //dikeluarkan hasil SPL
+                M2.printTxt(tabTemp);            //dikeluarkan hasil SPL
             }
             else if (opsi == 3) { //Metode balikan
-                Inverse M1 = new Inverse();
                 System.out.print("Masukkan n, sebagai nxn matriks : ");
                 int n = scan.nextInt();
                 
@@ -106,26 +105,12 @@ public class Menu {
                 M2.setWholeTabFloat(M1.inverse(M2.getWholeTab()));
                  
                 //Matriks M4, matriks yang berisi matriks setelah
-                if (M2.cantInverse(M2.getWholeTab())){
-                    System.out.println("Solusi tidak dapat dicari karena determinan 0.");
-                }else{
-                    matriks M3 = new matriks();
-                    M3.setBaris(M2.getBaris());
-                    M3.setKolom(1);
-                    M3.setWholeTabFloat(new float[M2.getBaris()][1]);
+                M2.printTxtSPLInv(M2.getWholeTab());
 
-                    for (int i = 0; i < M3.getBaris(); i++) {
-                        for (int j = 0; j < M3.getKolom(); j++) {
-                            System.out.println("Masukkan b baris ke " +(i+1)+ " ");
-                            M3.setElmt(scan.nextFloat(), i, j);
-                        }
-                    }
-                    float[][] tabTemp = M2.kaliMatriks(M2.getWholeTab(), M3.getWholeTab());
-                    for (int i=0; i<tabTemp.length; i++){
-                        System.out.println("x" +(i+1)+ " = " +tabTemp[i][0]);
-                    }
-                }
-                
+                /* kalo mau output txt 
+                Inverse inv = new Inverse();
+                inv.prosesTxtSPLInv();
+                */
 
             }
             else if (opsi == 4) { //Metode Cramer
