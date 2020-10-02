@@ -194,7 +194,7 @@ public class cramer {
     public void printHasil(float[] hasil){
         if (hasil[i] == -99999) {
             System.out.println("Determinan pembagi 0");
-            System.out.println("Hasil tidak terdefinisi");
+            System.out.println("Tidak ada solusi");
         } else {
             for (Integer i = 0; i < hasil.length; i++) {
                 System.out.print("Hasil elemen ke-");
@@ -212,7 +212,7 @@ public class cramer {
             FileWriter myWriter = new FileWriter(myObj);
             String s;
             if (hasil[i] == -99999) {
-                s = "Determinan pembagi 0, hasil tidak terdefinisi";
+                s = "Determinan pembagi 0, tidak ada solusi";
             } else {
                 for (int i = 0; i < hasil.length; i++) {
                     s = Float.toString(hasil[i]);
