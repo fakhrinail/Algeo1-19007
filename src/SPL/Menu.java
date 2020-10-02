@@ -23,6 +23,19 @@ public class Menu {
 
                 matriks M1 = new matriks();         //matriks1 adalah matriks raw
                 float[][] tabInput = new float[baris][kolom+1];     //ditambah 1 untuk kolom paling kanan
+               
+                for (int i=0; i<baris; i++){
+                    for (int j=0; j<kolom+1;j++){
+                        if (j==kolom){
+                                System.out.print("Masukkan b baris ke " + (i+1) + " ");
+                                tabInput[i][j] = scan.nextFloat();
+                            }else{
+                                System.out.print("Masukkan a baris ke " +(i+1)+" kolom ke "+ (j+1) + " ");
+                                tabInput[i][j] = scan.nextFloat();
+                        }
+                    }
+                }
+               
                 M1.setBaris(baris);
                 M1.setKolom(kolom+1);
                 M1.setWholeTabFloat(tabInput);
@@ -46,6 +59,19 @@ public class Menu {
 
                 matriks M1 = new matriks();         //matriks1 adalah matriks raw
                 float[][] tabInput = new float[baris][kolom+1];     //ditambah 1 untuk kolom paling kanan
+                
+                for (int i=0; i<baris; i++){
+                    for (int j=0; j<kolom+1;j++){
+                        if (j==kolom){
+                                System.out.print("Masukkan b baris ke " + (i+1) + " ");
+                                tabInput[i][j] = scan.nextFloat();
+                            }else{
+                                System.out.print("Masukkan a baris ke " +(i+1)+" kolom ke "+ (j+1) + " ");
+                                tabInput[i][j] = scan.nextFloat();
+                        }
+                    }
+                }
+                
                 M1.setBaris(baris);
                 M1.setKolom(kolom+1);
                 M1.setWholeTabFloat(tabInput);
@@ -121,9 +147,17 @@ public class Menu {
 
                 System.out.print("Masukkan n, sebagai nxn MATRIKS anda: ");
                 int n = scan.nextInt();
+                
 
                 matriks M1 = new matriks();                         //matriks1 adalah matriks raw
-                float[][] tabInput = new float[n][n];     //ditambah 1 untuk kolom paling kanan
+                float[][] tabInput = new float[n][n];     
+                for (int i=0; i<n; i++){
+                    for (int j=0; j<n;j++){
+                        System.out.print("Masukkan a baris ke " +i+" kolom ke "+j);
+                        tabInput[i][j] = scan.nextFloat();
+                    }
+                }
+
                 M1.setBaris(n);
                 M1.setKolom(n);
                 M1.setWholeTabFloat(tabInput);
@@ -144,7 +178,15 @@ public class Menu {
                 int n = scan.nextInt();
 
                 matriks M1 = new matriks();                         //matriks1 adalah matriks raw
-                float[][] tabInput = new float[n][n];     //ditambah 1 untuk kolom paling kanan
+                float[][] tabInput = new float[n][n];     
+                
+                for (int i=0; i<n; i++){
+                    for (int j=0; j<n;j++){
+                        System.out.print("Masukkan a baris ke " +i+" kolom ke "+j);
+                        tabInput[i][j] = scan.nextFloat();
+                    }
+                }
+                
                 M1.setBaris(n);
                 M1.setKolom(n);
                 M1.setWholeTabFloat(tabInput);
@@ -197,7 +239,7 @@ public class Menu {
             }
             else{
                 System.out.println("Invalid Input");
-                SPL();
+                DeterminanDanMatriksBalikan();
             }
         } catch (Exception e) {
             //TODO: handle exception
@@ -205,45 +247,70 @@ public class Menu {
             DeterminanDanMatriksBalikan();
         }
     }
-    public static void MatrisBalikan() {
-        Inverse M = new Inverse();
-        cramer C = new cramer();
-        M.makeInverse();
-        Scanner scan = new Scanner();
-        float[][] tabTemp = M.inverse(M.getWholeTab());
-        float[][] hasilY = new float[M.getBaris()][1];
-        float[] hasil = new float[M.getBaris()][1];
-        for (int i = 0; i < hasilY.length; i++) {
-            hasilY[i][0] = scan.nextFloat();
-        }
-        hasil = M.kaliMatriks(tabTemp, hasilY);
+    public static void MatriksBalikan() {
         
-        for (int i = 0; i < M.getBaris(); i++) {
-            for (int j = 0; j < M.getKolom(); j++) {
-                System.out.print(tabTemp[i][j] + " ");
-            }
-            System.out.println();
-        }
     }
+
     public static void Interpolasi() {
+        Scanner scan = new Scanner(System.in);
+
         interpolasi firstInterpolasi = new interpolasi();
-        firstInterpolasi.makeInterpolasi();
-        float[][] tabTemp = firstInterpolasi.convertToMatriks();
+        System.out.println("Masukkan banyak titik: ");
+        int n = scan.nextInt();
+        
+        firstInterpolasi.setBaris(n);
+        firstInterpolasi.setKolom(2);
+        firstInterpolasi.setWholeTabFloat(new float[n][2]);
 
-        matriks M = new matriks();
-        M.setBaris(firstInterpolasi.getBaris());
-        M.setKolom(firstInterpolasi.getBaris()+1);
-        M.setWholeTabFloat(tabTemp);
-
-        tabTemp = M.matriksToGauss();
-        M.gaussToGaussJordan(tabTemp);
-
-        for (int i = 0; i < M.getBaris(); i++) {
-            for (int j = 0; j < M.getKolom(); j++) {
-                System.out.print(tabTemp[i][j] + " ");
+        for (int i = 0; i < firstInterpolasi.getBaris(); i++) {
+            for (int j = 0; j < firstInterpolasi.getKolom(); j++) {
+                if (j==0){
+                    System.out.println("Masukkan nilai x dari titik ke-" + (i+1));
+                    firstInterpolasi.setElmt(scan.nextFloat(), i,j);
+                }else{
+                    System.out.println("Masukkan nilai y dari titik ke-" + (i+1));
+                    firstInterpolasi.setElmt(scan.nextFloat(), i,j);
+                }
             }
-            System.out.println();
         }
+        float[][] tabTemp = firstInterpolasi.convertToMatriks();
+        
+        float x;
+        float y;
+        
+        System.out.println("Masukkan titik (x) yang ingin ditaksir");
+        x = scan.nextFloat();
+
+        System.out.println("1. Metode eliminasi Gauss");
+        System.out.println("2. Metode eliminasi Gauss-Jordan");
+        System.out.println("3. Metode matriks balikan");
+        System.out.println("4. Kaidah Cramer");
+
+        int opsi = scan.nextInt();
+        if (opsi==1){       //elim gauss
+            matriks M = new matriks();
+            M.setBaris(firstInterpolasi.getBaris());
+            M.setKolom(firstInterpolasi.getBaris()+1);
+            M.setWholeTabFloat(tabTemp);
+
+            tabTemp = M.matriksToGauss();
+            M.gaussToGaussJordan(tabTemp);
+
+            firstInterpolasi.outputInterpolasi(x, tabTemp);
+        }else if(opsi==2){
+            matriks M = new matriks();
+            M.setBaris(firstInterpolasi.getBaris());
+            M.setKolom(firstInterpolasi.getBaris()+1);
+            M.setWholeTabFloat(tabTemp);
+
+            tabTemp = M.matriksToGauss();
+            M.gaussToGaussJordan(tabTemp);
+
+            firstInterpolasi.outputInterpolasi(x, tabTemp);
+        }
+            
+
+     
     }
 
     public static void Regresi() {

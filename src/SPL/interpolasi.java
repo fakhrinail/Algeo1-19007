@@ -91,5 +91,25 @@ public class interpolasi {
         return matriksSPL;
     }
 
+    public void outputInterpolasi(float x, float[][] matriksGaussJordan){
+        float[] membantuPerhitungan = new float[this.getBaris()];
+        String ln = "";
+        float value = 0;
+        for (int i = 0; i<this.getBaris(); i++){
+            membantuPerhitungan[i] = matriksGaussJordan[i][this.getBaris()];
+            value += membantuPerhitungan[i]*Math.pow(x, i);
+            if (membantuPerhitungan[i]>=0 && i==0){
+                ln = ln + membantuPerhitungan[i] + "x^" + i + " ";
+            }else if(membantuPerhitungan[i]>=0 && i!=0){
+                ln = ln +"+ "+ membantuPerhitungan[i] + "x^" + i + " ";
+            }else if(membantuPerhitungan[i]<0 && i==0){
+                ln = ln + membantuPerhitungan[i] + "x^" + i + " ";
+            }else if(membantuPerhitungan[i]<0 && i!=0){
+                ln = ln + "- " + (-membantuPerhitungan[i]) + "x^" + i + " ";
+            }
+        }
+        System.out.println(ln);
+        System.out.println("Perkiraan hasil polinom: " + value);
+    }
 
 }

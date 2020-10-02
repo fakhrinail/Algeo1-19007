@@ -78,7 +78,7 @@ public class matriks {
 
     private void divideAllbyLeading(int rowLeading, int columnLeading, float[][] MTarget){
         float divider = MTarget[rowLeading][columnLeading];
-        for (int j=0; j<this.getKolom();j++){
+        for (int j=columnLeading; j<this.getKolom();j++){
             float newValue = MTarget[rowLeading][j]/divider;
             MTarget[rowLeading][j] = newValue;
         }

@@ -18,15 +18,15 @@ public class Main {
         int menu = scan.nextInt();
 
         if (menu == 1) {
-            SPL();
+            Menu.SPL();
         } else if (menu == 2) { // Determinan
-            Determinan();
+            Menu.DeterminanDanMatriksBalikan();
         } else if (menu == 3) { //matriks balikan
-            MatriksBalikan();
+            Menu.MatriksBalikan();
         } else if (menu == 4) { //interpolasi
-            Interpolasi();
+            Menu.Interpolasi();
         } else if (menu == 5) {
-            Regresi();
+            Menu.Regresi();
         } else if (menu == 6) {
             System.out.println("Terima kasih!");
             return;
