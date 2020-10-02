@@ -70,6 +70,8 @@ public class Inverse {
    public float Determinan(float[][] matriks) {
         if (matriks.length==2 && matriks[0].length==2){
             return (matriks[0][0]*matriks[1][1]) - (matriks[0][1]*matriks[1][0]);
+        }else if (matriks.length==1 && matriks[0].length==1){
+            return matriks[0][0];
         }else{
             int i = 0;
             int j;
@@ -99,6 +101,7 @@ public class Inverse {
         int i, j;
         float[][] mtmp2;
         mtmp2 = new float[matriks.length][matriks[0].length];
+        
         float determinan=0;
         for (i=0; i < matriks.length; i++){    
             for (j=0;j < matriks[0].length;j++){  
@@ -124,16 +127,14 @@ public class Inverse {
                             }
                         }   
                     }
-                    determinan = Determinan(mtmp);
-                    }
-                    float negatif = (float)Math.pow(-1, i+j);
-                    mtmp2[i][j] = negatif*determinan;
-                
-                    
-            
+                }
+                determinan = Determinan(mtmp);
+                float negatif = (float)Math.pow(-1, i+j);
+                mtmp2[i][j] = negatif*determinan;
             }
         }
         return mtmp2;
+        
     }
     
     public void transpose(float[][] matriks){
@@ -153,6 +154,22 @@ public class Inverse {
     
         
     }
+
+    public boolean cantInverse(float[][] matriks){
+        int i=0;
+        int j=0;
+        boolean cant = true;
+        while (cant && i<matriks.length){
+            while (cant && j<matriks[0].length){
+                if (matriks[i][j]!=0){
+                    cant=false;
+                }
+                j+=1;
+            }
+            i+=1;
+        }
+        return cant;
+    }
     
     public float[][] inverse(float[][] matriks){
         int i, j;
@@ -161,16 +178,32 @@ public class Inverse {
         
         m = new float[matriks.length][matriks[0].length];
         det_m = Determinan(matriks);
-        matriks = cofactor(matriks);
-        transpose(matriks);
-        for (i = 0; i < matriks.length; i++){
-            for (j = 0; j < matriks[0].length; j++){
-                m[i][j] = (matriks[i][j])/(det_m); 
+        if (det_m!=0){
+            if (matriks.length!=2 && matriks[0].length!=2){
+                matriks = cofactor(matriks);
+                transpose(matriks);
+            }else{
+                float temp = matriks[0][0];
+                matriks[0][0] = matriks[1][1];
+                matriks[1][1] = temp;
+                
+                matriks[0][1] = -matriks[0][1];
+                matriks[1][0] = -matriks[1][0];
             }
-            
-        
+            for (i = 0; i < matriks.length; i++){
+                for (j = 0; j < matriks[0].length; j++){
+                    m[i][j] = (matriks[i][j])/(det_m); 
+                }
+            }
+            return m;
+        }else{
+            for (i = 0; i < matriks.length; i++){
+                for (j = 0; j < matriks[0].length; j++){
+                    m[i][j] = 0; 
+                }
+            }
+            return m;
         }
-        return m;
     }
     public float[][] kaliMatriks(float[][] matriks1,float[][] matriks2){
         int i, j;
