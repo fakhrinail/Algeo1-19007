@@ -110,6 +110,8 @@ public class interpolasi {
         }
         System.out.println(ln);
         System.out.println("Perkiraan hasil polinom: " + value);
+        Inverse inv = new Inverse();
+        inv.printTxtInterpolasi(ln, value);
     }
 
 }

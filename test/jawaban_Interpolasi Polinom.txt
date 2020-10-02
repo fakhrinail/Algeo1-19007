@@ -1,0 +1,4 @@
+
+Persamaan umum yang didapat adalah 
+1.0x^0 + 1.0x^1 + -0.0x^2 
+Hasil taksiran adalah 3.5

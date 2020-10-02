@@ -59,16 +59,6 @@ public class Input {
       return matriksDibaca;
    }
 
-   public static void main(String[] args) throws Exception {
-       Scanner scan = new Scanner(System.in);
-       String namaFile = scan.nextLine();
-       float[][] tabTemp = input(namaFile);
-       for(int i=0; i<tabTemp.length;i++){
-           for (int j=0; j<tabTemp[0].length;j++){
-               System.out.println(tabTemp[i][j]);
-           }
-       }
-   }
 
 
 }

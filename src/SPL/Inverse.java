@@ -321,6 +321,23 @@ public class Inverse {
             e.printStackTrace();
         }
     }
+
+    public void printTxtInterpolasi(String persamaan, float hasil) {
+        
+        try {
+            String filename = "test\\jawaban_Interpolasi Polinom.txt";
+            File myObj = new File(filename);
+            FileWriter myWriter = new FileWriter(myObj, true);
+            myWriter.write("\nPersamaan umum yang didapat adalah \n");
+            
+            myWriter.write(persamaan+"\n");
+            myWriter.write("Hasil taksiran adalah " + hasil);
+            myWriter.close();
+        }catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 }
 
 
